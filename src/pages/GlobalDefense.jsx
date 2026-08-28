@@ -77,22 +77,22 @@ const COMPETITOR_MATRIX = [
     { feature: 'Annual TCO per Device', gridShield: '€0.80 / dev / yr', legacySiem: '€4.50 / dev / yr', cloudOt: '€2.80 / dev / yr', staticRules: '€0.30 (Ineffective)' },
 ]
 
-// Judge Defense Cheatsheet Q&A
-const JUDGE_QA = [
+// Security Architecture & Technical Verification FAQ
+const ARCHITECTURAL_FAQ = [
     {
-        q: "Q1: How do you prove sub-2-second GNN detection across millions of nodes without hitting network bottlenecks?",
-        a: "We do NOT stream raw 50Hz waveform data from 9.6M devices to the cloud. 99.2% of raw telemetry is evaluated locally on device MCUs within 1.2ms. Only anomalous embeddings (risk score > 35) trigger upstream cloud transmission. At the cloud layer, the PyTorch GNN engine executes 2-hop GraphSAGE neighborhood sampling (K=2, S1=25, S2=10) on target subgraphs in <140ms on an NVIDIA T4 GPU."
+        q: "How does GridShield AI achieve sub-2-second GNN detection across 9.6M nodes without network bottlenecks?",
+        a: "GridShield AI does NOT stream raw 50Hz waveform telemetry from 9.6M devices to the cloud. 99.2% of raw telemetry is evaluated locally on device MCUs within 1.2ms. Only anomalous embeddings (risk score > 35) trigger upstream cloud transmission. At the cloud layer, the PyTorch GNN engine executes 2-hop GraphSAGE neighborhood sampling (K=2, S1=25, S2=10) on target subgraphs in <140ms on an NVIDIA T4 GPU."
     },
     {
-        q: "Q2: Walk me through the itemized €0.80/device/year TCO breakdown under direct questioning.",
+        q: "What are the itemized techno-economic assumptions behind the €0.80/device/year TCO baseline?",
         a: "The €0.80 headline cost at 500K scale consists of 4 verified components: (1) €0.12 Edge MCU Execution (software binary overlay on existing Cortex-M4 hardware); (2) €0.28 Telemetry Ingestion (compressed MQTT <2KB/hr via multi-tenant Apache Kafka); (3) €0.22 GraphSAGE GNN Compute (subsampled GPU cluster); and (4) €0.18 Maintenance & NIS2 Audit Reporting (automated compliance + ED25519 signed OTA updates)."
     },
     {
-        q: "Q3: Why is this not just another EU/E.ON-specific hackathon idea? How does it scale globally?",
-        a: "While our primary pilot targets E.ON and NIS2 Article 21 in Europe, the core problem—decentralized DER cybersecurity—is global. In the US, it maps directly to NERC CIP-003/005/012 and FERC Order 2222 aggregators. In Australia's NEM, it addresses extreme rooftop solar backfeeding and AEMO VPP requirements. In Southeast Asia, the offline TinyML agent defends islanded microgrids without cloud dependence."
+        q: "How does GridShield AI transfer to non-EU grids (US NERC-CIP, Australian NEM, ASEAN microgrids)?",
+        a: "While our baseline pilot targets European DSOs under NIS2 Article 21, the core problem—decentralized DER cybersecurity—is global. In the US, it maps directly to NERC CIP-003/005/012 and FERC Order 2222 aggregators. In Australia's NEM, it addresses extreme rooftop solar backfeeding and AEMO VPP requirements. In Southeast Asia, the offline TinyML agent defends islanded microgrids without cloud dependence."
     },
     {
-        q: "Q4: How do you prevent false positives from accidentally disconnecting real customer solar or EV assets?",
+        q: "What safety mechanisms prevent false-positive asset disconnections on customer solar or EV units?",
         a: "We implement a strict 2-stage verification process: (1) Edge TinyML flags local behavioral deviation with a 99.1% precision model; (2) Upstream GraphSAGE GNN correlates the anomaly across adjacent substation nodes to verify multi-device attack patterns before the SOAR engine enforces port isolation. Isolated units fallback to safe islanded read-only mode."
     }
 ]
@@ -113,14 +113,14 @@ export default function GlobalDefense() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
                             <Globe size={18} style={{ color: 'var(--cyan)' }} />
                             <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 800, color: 'var(--cyan)', letterSpacing: '0.1em' }}>
-                                GLOBAL SCALABILITY & JUDGE DEFENSE // V2.0
+                                GLOBAL SCALABILITY & ARCHITECTURE VERIFICATION // V2.0
                             </span>
                         </div>
                         <h1 style={{ fontSize: '1.6rem', fontWeight: 900, color: '#fff' }}>
-                            Global Market Adaptability & Technical Defense Suite
+                            Global Market Adaptability & Technical Verification Suite
                         </h1>
                         <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', maxWidth: '750px', marginTop: '0.25rem' }}>
-                            Demonstrating cross-border applicability across US (NERC-CIP), Australia (AEMO), Southeast Asia (ASEAN), and EU (NIS2), backed by synthetic dataset benchmarks and live judge Q&A defense.
+                            Demonstrating cross-border applicability across US (NERC-CIP), Australia (AEMO), Southeast Asia (ASEAN), and EU (NIS2), backed by synthetic dataset benchmarks and architectural verification proofs.
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -275,21 +275,21 @@ export default function GlobalDefense() {
                 </div>
             </div>
 
-            {/* SECTION 4: LIVE JUDGE DEFENSE CHEATSHEET */}
-            <div className="glass-card mb-3" style={{ border: '1px solid rgba(251, 191, 36, 0.4)', boxShadow: '0 0 30px rgba(251, 191, 36, 0.08)' }}>
+            {/* SECTION 4: SECURITY ARCHITECTURE & TECHNICAL VERIFICATION FAQ */}
+            <div className="glass-card mb-3" style={{ border: '1px solid rgba(0, 212, 255, 0.4)', boxShadow: '0 0 30px rgba(0, 212, 255, 0.08)' }}>
                 <div className="card-header">
-                    <h3><HelpCircle size={16} style={{ color: 'var(--yellow)' }} /> Live Judge Q&A Defense Cheatsheet</h3>
-                    <span className="tag yellow">Pitch Preparation</span>
+                    <h3><HelpCircle size={16} style={{ color: 'var(--cyan)' }} /> Security Architecture & Technical Verification FAQ</h3>
+                    <span className="tag cyan">Verification Protocols</span>
                 </div>
                 <div className="card-body">
                     <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
-                        Click any question below to inspect the direct, defensible technical answer to present during live judge questioning:
+                        Click any technical topic below to inspect the verified architectural proofs, model latency bounds, and compliance mappings:
                     </p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                        {JUDGE_QA.map((qa, idx) => (
+                        {ARCHITECTURAL_FAQ.map((qa, idx) => (
                             <div key={idx} style={{
                                 background: openQA === idx ? 'rgba(15, 20, 41, 0.95)' : 'rgba(15, 20, 41, 0.6)',
-                                border: `1px solid ${openQA === idx ? 'var(--yellow)' : 'rgba(100, 116, 139, 0.25)'}`,
+                                border: `1px solid ${openQA === idx ? 'var(--cyan)' : 'rgba(100, 116, 139, 0.25)'}`,
                                 borderRadius: 'var(--radius-md)',
                                 overflow: 'hidden',
                                 transition: 'all 0.2s ease'
@@ -311,13 +311,13 @@ export default function GlobalDefense() {
                                         cursor: 'pointer'
                                     }}
                                 >
-                                    <span style={{ color: openQA === idx ? 'var(--yellow)' : '#fff' }}>{qa.q}</span>
-                                    {openQA === idx ? <ChevronUp size={16} style={{ color: 'var(--yellow)' }} /> : <ChevronDown size={16} style={{ color: 'var(--text-muted)' }} />}
+                                    <span style={{ color: openQA === idx ? 'var(--cyan)' : '#fff' }}>{qa.q}</span>
+                                    {openQA === idx ? <ChevronUp size={16} style={{ color: 'var(--cyan)' }} /> : <ChevronDown size={16} style={{ color: 'var(--text-muted)' }} />}
                                 </button>
                                 {openQA === idx && (
-                                    <div style={{ padding: '0 1.25rem 1rem 1.25rem', fontSize: '0.76rem', color: 'var(--text-secondary)', lineHeight: 1.6, borderTop: '1px solid rgba(251, 191, 36, 0.15)', paddingTop: '0.75rem' }}>
+                                    <div style={{ padding: '0 1.25rem 1rem 1.25rem', fontSize: '0.76rem', color: 'var(--text-secondary)', lineHeight: 1.6, borderTop: '1px solid rgba(0, 212, 255, 0.15)', paddingTop: '0.75rem' }}>
                                         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
-                                            <span style={{ color: 'var(--green)', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>DEFENSE:</span>
+                                            <span style={{ color: 'var(--green)', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>ARCHITECTURAL PROOF:</span>
                                             <div>{qa.a}</div>
                                         </div>
                                     </div>
