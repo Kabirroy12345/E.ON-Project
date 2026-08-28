@@ -16,6 +16,7 @@ const navItems = [
     { section: 'Protection' },
     { path: '/asset-shield', label: 'Asset Shield', icon: Shield, badge: '9.6M', badgeType: 'cyan' },
     { section: 'Strategy' },
+    { path: '/global-defense', label: 'Global Defense & Q&A', icon: Globe, badge: 'V2.0', badgeType: 'live' },
     { path: '/architecture', label: 'Architecture', icon: Cpu, badge: 'NIS2', badgeType: 'nis2' },
     { path: '/impact', label: 'Impact & TCO', icon: TrendingUp, badge: 'TCO v2', badgeType: 'tco' },
 ]

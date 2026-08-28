@@ -5,6 +5,7 @@ import Landing from './pages/Landing'
 import Dashboard from './pages/Dashboard'
 import PurpleTeam from './pages/PurpleTeam'
 import AssetShield from './pages/AssetShield'
+import GlobalDefense from './pages/GlobalDefense'
 import Architecture from './pages/Architecture'
 import Impact from './pages/Impact'
 
@@ -17,6 +18,7 @@ function App() {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/purple-team" element={<PurpleTeam />} />
                     <Route path="/asset-shield" element={<AssetShield />} />
+                    <Route path="/global-defense" element={<GlobalDefense />} />
                     <Route path="/architecture" element={<Architecture />} />
                     <Route path="/impact" element={<Impact />} />
                 </Route>
