@@ -54,27 +54,27 @@ const GLOBAL_MARKETS = [
     }
 ]
 
-// Hardware & Synthetic Dataset Benchmark Data
+// Hardware & Synthetic Dataset Benchmark Data (Projected Specifications)
 const HARDWARE_BENCHMARKS = [
-    { target: 'ARM Cortex-M4 (STM32F4 @ 168MHz)', flash: '742 KB', ram: '118 KB', latency: '1.14 ms', power: '1.8 mW', status: 'VERIFIED ON HARDWARE' },
-    { target: 'ARM Cortex-M7 (i.MX RT1060 @ 600MHz)', flash: '512 KB', ram: '96 KB', latency: '0.38 ms', power: '3.2 mW', status: 'VERIFIED ON HARDWARE' },
-    { target: 'Raspberry Pi Compute Module 4', flash: '1.2 MB', ram: '240 KB', latency: '0.09 ms', power: '120 mW', status: 'GATEWAY BENCHMARK' },
+    { target: 'ARM Cortex-M4 (STM32F4 @ 168MHz)', flash: '742 KB', ram: '118 KB', latency: '1.14 ms (Est.)', power: '1.8 mW', status: 'TARGET SPECIFICATION' },
+    { target: 'ARM Cortex-M7 (i.MX RT1060 @ 600MHz)', flash: '512 KB', ram: '96 KB', latency: '0.38 ms (Est.)', power: '3.2 mW', status: 'TARGET SPECIFICATION' },
+    { target: 'Raspberry Pi Compute Module 4', flash: '1.2 MB', ram: '240 KB', latency: '0.09 ms (Est.)', power: '120 mW', status: 'GATEWAY TARGET SPEC' },
 ]
 
 const MODEL_EVALUATION_METRICS = [
-    { metric: 'Model F1-Score', value: '98.4%', target: '>95.0%', detail: 'Evaluated over 1,000,000 synthetic IEEE 39-bus power flow telemetry frames' },
-    { metric: 'Precision', value: '99.1%', target: '>98.0%', detail: 'Minimizes false positives to prevent accidental customer inverter disconnects' },
-    { metric: 'Recall (Sensitivity)', value: '97.8%', target: '>95.0%', detail: 'Captures stealthy low-and-slow Modbus protocol parameter manipulation' },
-    { metric: 'False Positive Rate', value: '0.12%', target: '<0.50%', detail: 'Crucial for DSO operational confidence & customer SLA preservation' },
+    { metric: 'Target Model F1-Score', value: '~98%', target: '>95.0%', detail: 'Target design objective for synthetic IEEE 39-bus power flow simulation vectors' },
+    { metric: 'Target Precision', value: '~99%', target: '>98.0%', detail: 'Design target to minimize false positives and prevent accidental customer inverter disconnects' },
+    { metric: 'Target Recall', value: '~98%', target: '>95.0%', detail: 'Design target to capture stealthy low-and-slow Modbus protocol parameter manipulation' },
+    { metric: 'Target False Positive Rate', value: '<0.15%', target: '<0.50%', detail: 'Critical design objective for DSO operational confidence & customer SLA preservation' },
 ]
 
-// Competitor Matrix
+// Competitor Matrix (Qualitative Architectural Comparison)
 const COMPETITOR_MATRIX = [
-    { feature: 'Architecture Type', gridShield: 'Decentralized Edge TinyML + GNN', legacySiem: 'Centralized Log Aggregation', cloudOt: 'Passive Network Tapping', staticRules: 'Hardcoded Thresholds' },
-    { feature: 'Detection Latency', gridShield: '<1.83s Median (<1.2ms Edge)', legacySiem: '15 – 45 Minutes', cloudOt: '10 – 30 Seconds', staticRules: 'Immediate (High FP)' },
-    { feature: 'GDPR Privacy Guarantee', gridShield: '100% On-Device (Zero Telemetry Leak)', legacySiem: 'No (Cloud Streaming)', cloudOt: 'Partial (Packet Capture)', staticRules: 'Yes (Local Only)' },
-    { feature: 'Coordinated Attack Correlation', gridShield: 'GraphSAGE 2-Hop GNN Subgraphs', legacySiem: 'Manual Rule Correlation', cloudOt: 'Basic IP Matching', staticRules: 'None (Isolated Assets)' },
-    { feature: 'Annual TCO per Device', gridShield: '€0.80 / dev / yr', legacySiem: '€4.50 / dev / yr', cloudOt: '€2.80 / dev / yr', staticRules: '€0.30 (Ineffective)' },
+    { feature: 'Architecture Type', gridShield: 'Decentralized Edge TinyML + GNN', legacySiem: 'Centralized Log Aggregation', cloudOt: 'Passive Packet Tapping', staticRules: 'Hardcoded Parameter Thresholds' },
+    { feature: 'Detection Latency Target', gridShield: '<1.83s Target Median (<1.2ms Edge)', legacySiem: 'High Latency (Log Pooling Batching)', cloudOt: '10 – 30 Seconds', staticRules: 'Instant (High False Alarm Rate)' },
+    { feature: 'GDPR Privacy Protection', gridShield: '100% On-Device Edge Compute', legacySiem: 'Raw Telemetry Ingestion to Cloud', cloudOt: 'Full Network Packet Capture', staticRules: 'On-Device Threshold Only' },
+    { feature: 'Multi-Asset Correlation', gridShield: 'GraphSAGE 2-Hop Subgraphs', legacySiem: 'Manual SIEM Query Rules', cloudOt: 'Basic IP/Subnet Correlation', staticRules: 'None (Single Device Scope)' },
+    { feature: 'Pricing & Licensing Model', gridShield: 'Target €0.80 / dev / yr', legacySiem: 'Data Volume Ingestion (€/GB)', cloudOt: 'Per-Substation Hardware Appliance Fee', staticRules: 'Negligible (Low Security Value)' },
 ]
 
 // Security Architecture & Technical Verification FAQ
@@ -113,14 +113,14 @@ export default function GlobalDefense() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
                             <Globe size={18} style={{ color: 'var(--cyan)' }} />
                             <span style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', fontWeight: 800, color: 'var(--cyan)', letterSpacing: '0.1em' }}>
-                                GLOBAL SCALABILITY & ARCHITECTURE VERIFICATION // V2.0
+                                GLOBAL SCALABILITY & ARCHITECTURE SPECIFICATIONS // V2.0
                             </span>
                         </div>
                         <h1 style={{ fontSize: '1.6rem', fontWeight: 900, color: '#fff' }}>
-                            Global Market Adaptability & Technical Verification Suite
+                            Global Market Adaptability & Technical Specifications
                         </h1>
                         <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', maxWidth: '750px', marginTop: '0.25rem' }}>
-                            Demonstrating cross-border applicability across US (NERC-CIP), Australia (AEMO), Southeast Asia (ASEAN), and EU (NIS2), backed by synthetic dataset benchmarks and architectural verification proofs.
+                            Demonstrating cross-border applicability across US (NERC-CIP), Australia (AEMO), Southeast Asia (ASEAN), and EU (NIS2), backed by target hardware benchmarks and architectural specifications.
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -128,7 +128,7 @@ export default function GlobalDefense() {
                             GLOBAL READY
                         </span>
                         <span style={{ background: 'rgba(168, 85, 247, 0.12)', border: '1px solid rgba(168, 85, 247, 0.3)', color: 'var(--purple)', fontSize: '0.68rem', fontFamily: 'var(--font-mono)', padding: '0.35rem 0.75rem', borderRadius: 'var(--radius-md)', fontWeight: 700 }}>
-                            F1-SCORE: 98.4%
+                            TARGET F1: ~98%
                         </span>
                     </div>
                 </div>
@@ -185,8 +185,8 @@ export default function GlobalDefense() {
                 {/* Edge MCU Execution Benchmark */}
                 <div className="glass-card">
                     <div className="card-header">
-                        <h3><Cpu size={16} style={{ color: 'var(--green)' }} /> Hardware Evaluation Benchmark (STM32 / Cortex-M)</h3>
-                        <span className="tag green">Measured Proof</span>
+                        <h3><Cpu size={16} style={{ color: 'var(--green)' }} /> Hardware Benchmark Targets (STM32 / Cortex-M)</h3>
+                        <span className="tag green">Target Specifications</span>
                     </div>
                     <div className="card-body">
                         <div style={{ overflowX: 'auto' }}>
@@ -214,7 +214,7 @@ export default function GlobalDefense() {
                             </table>
                         </div>
                         <div style={{ marginTop: '0.85rem', background: 'rgba(0,255,136,0.06)', border: '1px solid rgba(0,255,136,0.2)', padding: '0.65rem 0.85rem', borderRadius: 'var(--radius-md)', fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
-                            <strong style={{ color: 'var(--green)' }}>Implementation Proof:</strong> TinyML C++ binary compiled using TFLite Micro with CMSIS-NN optimization. 1.14ms execution time allows 800+ inference evaluations per second on standard Cortex-M4 smart meter gateways.
+                            <strong style={{ color: 'var(--green)' }}>Target Benchmark Architecture:</strong> Projected TinyML C++ deployment specification compiled for TFLite Micro with CMSIS-NN optimization. A 1.14ms target execution time provides the theoretical throughput of ~800 evaluations/sec on Cortex-M4 gateways.
                         </div>
                     </div>
                 </div>
@@ -222,8 +222,8 @@ export default function GlobalDefense() {
                 {/* Model Evaluation Metrics */}
                 <div className="glass-card">
                     <div className="card-header">
-                        <h3><Activity size={16} style={{ color: 'var(--purple)' }} /> Model Accuracy Metrics (1M IEEE 39-Bus Frames)</h3>
-                        <span className="tag purple">Synthetic Validation</span>
+                        <h3><Activity size={16} style={{ color: 'var(--purple)' }} /> Model Accuracy Design Targets (IEEE 39-Bus)</h3>
+                        <span className="tag purple">Design Objectives</span>
                     </div>
                     <div className="card-body">
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
@@ -244,7 +244,7 @@ export default function GlobalDefense() {
             {/* SECTION 3: COMPETITIVE DIFFERENTIATION MATRIX */}
             <div className="glass-card mb-3">
                 <div className="card-header">
-                    <h3><Layers size={16} style={{ color: 'var(--yellow)' }} /> Competitive Differentiation Matrix</h3>
+                    <h3><Layers size={16} style={{ color: 'var(--yellow)' }} /> Architectural Comparison Matrix</h3>
                     <span className="tag yellow">Market Positioning</span>
                 </div>
                 <div className="card-body">
@@ -254,8 +254,8 @@ export default function GlobalDefense() {
                                 <tr>
                                     <th>Feature / Capability</th>
                                     <th style={{ color: 'var(--cyan)', background: 'rgba(0, 212, 255, 0.15)' }}>GridShield AI (Proposed)</th>
-                                    <th>Legacy SIEM (Splunk/QRadar)</th>
-                                    <th>Pure Cloud OT Security</th>
+                                    <th>Legacy SIEM Platforms</th>
+                                    <th>Pure Cloud OT Monitoring</th>
                                     <th>Static Rule Engines</th>
                                 </tr>
                             </thead>

@@ -171,18 +171,18 @@ def create_gridshield_report():
     story.append(global_table)
     story.append(Spacer(1, 8))
 
-    # ==================== SECTION 3: HARDWARE & MODEL BENCHMARKS ====================
-    story.append(Paragraph("3. Hardware Evaluation & Model Performance Benchmarks", h1_style))
+    # ==================== SECTION 3: HARDWARE & MODEL BENCHMARK TARGETS ====================
+    story.append(Paragraph("3. Hardware Evaluation Benchmark Targets & Design Objectives", h1_style))
     story.append(Paragraph(
-        "To provide empirical evidence that the architecture scales under real hardware constraints, TinyML C++ binaries were benchmarked on standard microcontrollers:",
+        "Projected deployment specifications for TinyML C++ binaries compiled for TFLite Micro on standard microcontrollers:",
         body_style
     ))
 
     hw_data = [
-        ["Target MCU Hardware", "Flash Size", "RAM Usage", "Inference Latency", "Power Draw", "Execution Proof"],
+        ["Target MCU Hardware", "Flash Size", "RAM Usage", "Est. Latency", "Power Draw", "Target Architecture Spec"],
         ["ARM Cortex-M4 (STM32F4 @ 168MHz)", "742 KB", "118 KB", "1.14 ms", "1.8 mW", "TFLite Micro + CMSIS-NN Optimization"],
         ["ARM Cortex-M7 (i.MX RT1060 @ 600MHz)", "512 KB", "96 KB", "0.38 ms", "3.2 mW", "Dual-Issue Pipeline Acceleration"],
-        ["Raspberry Pi Compute Module 4", "1.2 MB", "240 KB", "0.09 ms", "120 mW", "Substation Gateway Benchmark"]
+        ["Raspberry Pi Compute Module 4", "1.2 MB", "240 KB", "0.09 ms", "120 mW", "Substation Gateway Target Spec"]
     ]
     hw_table = Table(hw_data, colWidths=[140, 65, 65, 80, 60, 130])
     hw_table.setStyle(TableStyle([
@@ -200,9 +200,9 @@ def create_gridshield_report():
     story.append(Spacer(1, 6))
 
     story.append(Paragraph(
-        "<b>Model Accuracy Metrics (Synthetic IEEE 39-Bus Telemetry Evaluation):</b><br/>"
-        "• <b>F1-Score:</b> 98.4% (Target >95.0%) | • <b>Precision:</b> 99.1% (Minimizes false positive asset shutdowns)<br/>"
-        "• <b>Recall:</b> 97.8% (Detects low-and-slow Modbus protocol attacks) | • <b>False Positive Rate:</b> 0.12% (Preserves DSO SLAs)",
+        "<b>Model Accuracy Design Objectives (Synthetic IEEE 39-Bus Simulation Vector Target):</b><br/>"
+        "• <b>Target F1-Score:</b> ~98% (Design Target >95.0%) | • <b>Target Precision:</b> ~99% (Minimizes false positive asset disconnections)<br/>"
+        "• <b>Target Recall:</b> ~98% (Detects low-and-slow Modbus protocol attacks) | • <b>Target False Positive Rate:</b> <0.15% (Preserves DSO SLAs)",
         body_style
     ))
     story.append(Spacer(1, 8))
