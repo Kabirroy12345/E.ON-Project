@@ -1,6 +1,9 @@
 # ⚡ GridShield AI — Purple Team Security Orchestration Platform
 > **E.ON Innovation Challenge 2026** — Autonomous Cybersecurity & Threat Remediation for Power Distribution Grids and 9.6M Customer Energy Assets.
 
+🚀 **Live Interactive Application**: **[https://e-on-project.vercel.app/](https://e-on-project.vercel.app/)**
+
+[![Live Application](https://img.shields.io/badge/Live_Demo-e--on--project.vercel.app-00ff88?style=for-the-badge&logo=vercel&logoColor=white)](https://e-on-project.vercel.app/)
 [![Vite Build](https://img.shields.io/badge/Vite-6.4.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Compliance](https://img.shields.io/badge/NIS2-Article_21_Ready-00ff88?style=for-the-badge&logo=shield)](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive)
