@@ -8,6 +8,7 @@ import {
 import { motion, useMotionValue, useTransform } from 'framer-motion'
 import GridWeatherWidget from '../components/GridWeatherWidget'
 import CyberSpeedwayCircuit from '../components/CyberSpeedwayCircuit'
+import CyberParticleNetworkBackground from '../components/CyberParticleNetworkBackground'
 
 // THEME CONFIGURATIONS (CYBER, WARP, STEALTH)
 const THEME_CONFIGS = {
@@ -711,44 +712,64 @@ export default function Landing() {
                     <CyberSpeedwayCircuit activeTheme={activeTheme} />
                 </div>
 
-                {/* LEADERSHIP CREW */}
-                <div style={{ textAlign: 'left', marginBottom: '4rem' }}>
-                    <div style={{ marginBottom: '2rem' }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: activeTheme.primary, letterSpacing: '0.2em' }}>
-                            CORE DEVELOPMENT TEAM // HACKATHON BUILDERS
-                        </span>
-                        <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#fff', marginTop: '0.25rem' }}>
-                            Cybersecurity & AI Engineering Leads
-                        </h2>
-                    </div>
+                {/* LEADERSHIP CREW (WITH ANIMATED NEURAL PARTICLE NETWORK BACKGROUND) */}
+                <div style={{
+                    position: 'relative',
+                    textAlign: 'left',
+                    marginBottom: '4rem',
+                    padding: '2.5rem 2rem',
+                    borderRadius: 'var(--radius-xl)',
+                    border: '1px solid rgba(0, 212, 255, 0.25)',
+                    background: 'rgba(6, 10, 24, 0.6)',
+                    backdropFilter: 'blur(16px)',
+                    overflow: 'hidden',
+                    boxShadow: '0 20px 50px rgba(0,0,0,0.6)'
+                }}>
+                    {/* Animated Cyber Particle Network Background Layer */}
+                    <CyberParticleNetworkBackground />
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
-                        {teamMembers.map((m, idx) => (
-                            <div key={idx} style={{
-                                background: activeTheme.cardBg,
-                                border: `1px solid ${m.color}40`,
-                                borderRadius: 'var(--radius-lg)',
-                                padding: '1.5rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1.25rem',
-                                boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
-                            }}>
-                                <div style={{
-                                    width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden',
-                                    border: `2px solid ${m.color}`, flexShrink: 0, background: 'var(--bg-tertiary)'
+                    <div style={{ position: 'relative', zIndex: 2 }}>
+                        <div style={{ marginBottom: '2rem' }}>
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: activeTheme.primary, letterSpacing: '0.2em' }}>
+                                CORE DEVELOPMENT TEAM // HACKATHON BUILDERS
+                            </span>
+                            <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#fff', marginTop: '0.25rem' }}>
+                                Cybersecurity & AI Engineering Leads
+                            </h2>
+                        </div>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
+                            {teamMembers.map((m, idx) => (
+                                <div key={idx} style={{
+                                    background: 'rgba(10, 16, 32, 0.85)',
+                                    border: `1px solid ${m.color}60`,
+                                    borderRadius: 'var(--radius-lg)',
+                                    padding: '1.5rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1.25rem',
+                                    boxShadow: `0 10px 30px rgba(0,0,0,0.5), 0 0 20px ${m.color}20`,
+                                    backdropFilter: 'blur(12px)',
+                                    position: 'relative',
+                                    zIndex: 3
                                 }}>
-                                    <img src={m.photo} alt={m.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                </div>
-                                <div>
-                                    <div style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', fontWeight: 800, color: m.color, letterSpacing: '0.1em', marginBottom: '0.2rem' }}>
-                                        {m.badge}
+                                    <div style={{
+                                        width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden',
+                                        border: `2px solid ${m.color}`, flexShrink: 0, background: 'var(--bg-tertiary)',
+                                        boxShadow: `0 0 15px ${m.color}40`
+                                    }}>
+                                        <img src={m.photo} alt={m.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                     </div>
-                                    <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff' }}>{m.name}</h3>
-                                    <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '0.15rem' }}>{m.role}</p>
+                                    <div>
+                                        <div style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', fontWeight: 800, color: m.color, letterSpacing: '0.1em', marginBottom: '0.2rem' }}>
+                                            {m.badge}
+                                        </div>
+                                        <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#fff' }}>{m.name}</h3>
+                                        <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '0.15rem' }}>{m.role}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
 
