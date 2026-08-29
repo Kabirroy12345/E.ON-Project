@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 
 const MATRIX_GLYPHS = '01#$%&<>[]{}/*+=?!#@ABCDEFGHJKLMNOPQRSTUVWXYZ'
 
-export default function CyberHeroHeading({ text = "GRIDSHIELD AI", activeTheme }) {
+export default function CyberHeroHeading({ text = "GRIDSHIELD", activeTheme }) {
     const containerRef = useRef(null)
     const [displayText, setDisplayText] = useState([])
     const [isDecoded, setIsDecoded] = useState(false)
@@ -74,6 +74,7 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD AI", activeTheme }
             style={{
                 position: 'relative',
                 display: 'inline-block',
+                maxWidth: '100%',
                 marginBottom: '1.25rem',
                 cursor: 'crosshair',
                 userSelect: 'none'
@@ -82,10 +83,10 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD AI", activeTheme }
             {/* Soft Radial Spotlight Behind Text */}
             <div style={{
                 position: 'absolute',
-                top: mousePos.y - 120,
-                left: mousePos.x - 120,
-                width: '240px',
-                height: '240px',
+                top: mousePos.y - 100,
+                left: mousePos.x - 100,
+                width: '200px',
+                height: '200px',
                 borderRadius: '50%',
                 background: `radial-gradient(circle, ${activeTheme.primary}45 0%, rgba(255, 0, 85, 0.15) 50%, transparent 80%)`,
                 pointerEvents: 'none',
@@ -109,20 +110,22 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD AI", activeTheme }
             <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                justify: 'center',
+                justify: 'flex-start',
                 position: 'relative',
                 zIndex: 1,
-                perspective: '1000px'
+                perspective: '1000px',
+                maxWidth: '100%',
+                flexWrap: 'nowrap'
             }}>
                 {/* Left Bracket Accent */}
                 <span style={{
                     fontFamily: 'var(--font-mono)',
-                    fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+                    fontSize: 'clamp(1.8rem, 3.5vw, 3.2rem)',
                     fontWeight: 900,
                     color: activeTheme.primary,
-                    marginRight: '0.4rem',
+                    marginRight: '0.2rem',
                     textShadow: `0 0 20px ${activeTheme.primary}`,
-                    opacity: 0.8
+                    opacity: 0.85
                 }}>
                     [
                 </span>
@@ -131,7 +134,7 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD AI", activeTheme }
                 <h1
                     style={{
                         margin: 0,
-                        fontSize: 'clamp(2.8rem, 6vw, 5.2rem)',
+                        fontSize: 'clamp(2.0rem, 4.2vw, 3.8rem)',
                         fontWeight: 900,
                         lineHeight: 0.95,
                         letterSpacing: '-0.03em',
@@ -142,14 +145,15 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD AI", activeTheme }
                             ? `-3px 0 #ff0055, 3px 0 #00d4ff, 0 0 35px ${activeTheme.primary}`
                             : `0 0 30px ${activeTheme.primary}, 0 0 10px rgba(255,255,255,0.8)`,
                         display: 'flex',
-                        gap: '0.04em',
-                        transition: 'text-shadow 0.1s ease'
+                        gap: '0.02em',
+                        transition: 'text-shadow 0.1s ease',
+                        whiteSpace: 'nowrap'
                     }}
                 >
                     {displayText.map((char, i) => (
                         <motion.span
                             key={i}
-                            whileHover={{ scale: 1.15, y: -4 }}
+                            whileHover={{ scale: 1.12, y: -3 }}
                             style={{
                                 display: 'inline-block',
                                 transformStyle: 'preserve-3d',
@@ -164,12 +168,12 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD AI", activeTheme }
                 {/* Right Bracket Accent */}
                 <span style={{
                     fontFamily: 'var(--font-mono)',
-                    fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+                    fontSize: 'clamp(1.8rem, 3.5vw, 3.2rem)',
                     fontWeight: 900,
                     color: activeTheme.primary,
-                    marginLeft: '0.4rem',
+                    marginLeft: '0.2rem',
                     textShadow: `0 0 20px ${activeTheme.primary}`,
-                    opacity: 0.8
+                    opacity: 0.85
                 }}>
                     ]
                 </span>
@@ -179,7 +183,7 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD AI", activeTheme }
             <div style={{
                 height: '3px',
                 width: '100%',
-                marginTop: '0.65rem',
+                marginTop: '0.5rem',
                 background: `linear-gradient(90deg, transparent 0%, ${activeTheme.primary} 30%, #ff0055 70%, transparent 100%)`,
                 borderRadius: '2px',
                 boxShadow: `0 0 15px ${activeTheme.primary}`,

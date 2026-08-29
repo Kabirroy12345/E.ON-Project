@@ -521,7 +521,7 @@ export default function Landing() {
                             </span>
                         </motion.div>
 
-                        <CyberHeroHeading text="GRIDSHIELD AI" activeTheme={activeTheme} />
+                        <CyberHeroHeading text="GRIDSHIELD" activeTheme={activeTheme} />
 
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
