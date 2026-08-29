@@ -3,23 +3,73 @@ import { Link } from 'react-router-dom'
 import {
     Shield, Zap, Eye, ArrowRight, Lock, Cpu, Users, Terminal,
     Activity, Layers, Sparkles, Globe, Download, ExternalLink, ChevronRight,
-    Radio, Crosshair, RefreshCw, Maximize2, Compass, Play
+    Radio, Crosshair, RefreshCw, Maximize2, Compass, Play, AlertTriangle
 } from 'lucide-react'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
 
+// THEME CONFIGURATIONS (CYBER, WARP, STEALTH)
+const THEME_CONFIGS = {
+    CYBER: {
+        name: 'CYBER NEON',
+        primary: '#00d4ff',
+        secondary: '#00ff88',
+        accentGlow: 'rgba(0, 212, 255, 0.4)',
+        cardBg: 'linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(9, 13, 22, 0.96))',
+        border: 'rgba(0, 212, 255, 0.35)',
+        bgStart: '#081a2e',
+        bgEnd: '#030914',
+        gridSpeed: 1.8,
+        particleSpeed: 1.5,
+        palette: ['#00d4ff', '#00ff88', '#0088ff', '#ffffff'],
+        statusText: 'DEFCON 3 // 9.6M ASSETS ONLINE',
+        badgeBg: 'rgba(0, 212, 255, 0.12)',
+        badgeColor: 'var(--cyan)'
+    },
+    WARP: {
+        name: 'HYPER WARP',
+        primary: '#a855f7',
+        secondary: '#ec4899',
+        accentGlow: 'rgba(168, 85, 247, 0.6)',
+        cardBg: 'linear-gradient(145deg, rgba(30, 10, 50, 0.92), rgba(12, 4, 25, 0.96))',
+        border: 'rgba(168, 85, 247, 0.5)',
+        bgStart: '#200a38',
+        bgEnd: '#080212',
+        gridSpeed: 6.5,
+        particleSpeed: 5.2,
+        palette: ['#a855f7', '#ec4899', '#3b82f6', '#ffffff'],
+        statusText: 'WARP VELOCITY // HYPER-GRID STREAM',
+        badgeBg: 'rgba(168, 85, 247, 0.2)',
+        badgeColor: 'var(--purple)'
+    },
+    STEALTH: {
+        name: 'RED ALERT STEALTH',
+        primary: '#ff3366',
+        secondary: '#ff9f43',
+        accentGlow: 'rgba(255, 51, 102, 0.6)',
+        cardBg: 'linear-gradient(145deg, rgba(40, 10, 20, 0.92), rgba(15, 4, 8, 0.96))',
+        border: 'rgba(255, 51, 102, 0.5)',
+        bgStart: '#2b0812',
+        bgEnd: '#0a0204',
+        gridSpeed: 3.5,
+        particleSpeed: 3.0,
+        palette: ['#ff3366', '#ff9f43', '#ff6b6b', '#ffffff'],
+        statusText: 'DEFCON 1 // ACTIVE ADVERSARY EMULATION',
+        badgeBg: 'rgba(255, 51, 102, 0.2)',
+        badgeColor: 'var(--red)'
+    }
+}
+
 export default function Landing() {
-    // Canvas WebGL Cyber-Particle & 3D Horizon Grid Engine
     const canvasRef = useRef(null)
     const [activeMode, setActiveMode] = useState('CYBER') // CYBER, WARP, STEALTH
     const [currentTime, setCurrentTime] = useState('')
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-    const [statsCount, setStatsCount] = useState(9600000)
+    const activeTheme = THEME_CONFIGS[activeMode] || THEME_CONFIGS.CYBER
 
-    // 3D Card Hover Tilt Motion
+    // 3D Parallax Card Motion
     const mouseX = useMotionValue(0)
     const mouseY = useMotionValue(0)
-    const rotateX = useTransform(mouseY, [-300, 300], [10, -10])
-    const rotateY = useTransform(mouseX, [-300, 300], [-10, 10])
+    const rotateX = useTransform(mouseY, [-300, 300], [8, -8])
+    const rotateY = useTransform(mouseX, [-300, 300], [-8, 8])
 
     const handleMouseMove = (e) => {
         const rect = e.currentTarget.getBoundingClientRect()
@@ -27,10 +77,9 @@ export default function Landing() {
         const y = e.clientY - rect.top - rect.height / 2
         mouseX.set(x)
         mouseY.set(y)
-        setMousePos({ x: e.clientX, y: e.clientY })
     }
 
-    // Live clock update
+    // Live Clock Update
     useEffect(() => {
         const updateClock = () => {
             const now = new Date()
@@ -41,7 +90,7 @@ export default function Landing() {
         return () => clearInterval(interval)
     }, [])
 
-    // 60 FPS HTML5 Canvas Kinetic Particle & 3D Horizon Racing Grid Engine
+    // 60 FPS Dynamic WebGL Kinetic Engine (Particle Physics + Horizon Speed Lines + EMP Shockwave)
     useEffect(() => {
         const canvas = canvasRef.current
         if (!canvas) return
@@ -56,26 +105,18 @@ export default function Landing() {
         }
         window.addEventListener('resize', handleResize)
 
-        // Particle System
-        const particleCount = 160
+        const particleCount = 180
         const particles = []
         const shockwaves = []
-
-        const colorPalettes = {
-            CYBER: ['#00d4ff', '#00ff88', '#0088ff', '#ffffff'],
-            WARP: ['#a855f7', '#00d4ff', '#3b82f6', '#ec4899'],
-            STEALTH: ['#ff3366', '#ff9f43', '#ff6b6b', '#ffd166']
-        }
 
         for (let i = 0; i < particleCount; i++) {
             particles.push({
                 x: Math.random() * width,
                 y: Math.random() * height,
-                z: Math.random() * 1000 + 1,
-                vx: (Math.random() - 0.5) * 1.5,
-                vy: (Math.random() - 0.5) * 1.5,
-                size: Math.random() * 2.5 + 1,
-                baseColor: Math.floor(Math.random() * 4),
+                vx: (Math.random() - 0.5) * activeTheme.particleSpeed,
+                vy: (Math.random() - 0.5) * activeTheme.particleSpeed,
+                size: Math.random() * 2.8 + 1,
+                colorIndex: Math.floor(Math.random() * 4),
                 alpha: Math.random() * 0.7 + 0.3
             })
         }
@@ -83,63 +124,51 @@ export default function Landing() {
         let mouseXCanvas = width / 2
         let mouseYCanvas = height / 2
 
-        const onCanvasMouseMove = (e) => {
+        const onMouseMove = (e) => {
             mouseXCanvas = e.clientX
             mouseYCanvas = e.clientY
         }
 
-        const onCanvasClick = (e) => {
+        const onClick = (e) => {
             shockwaves.push({
                 x: e.clientX,
                 y: e.clientY,
                 radius: 0,
-                maxRadius: 280,
+                maxRadius: 300,
                 alpha: 1,
-                color: activeMode === 'STEALTH' ? '#ff3366' : activeMode === 'WARP' ? '#a855f7' : '#00d4ff'
+                color: activeTheme.primary
             })
         }
 
-        window.addEventListener('mousemove', onCanvasMouseMove)
-        window.addEventListener('click', onCanvasClick)
+        window.addEventListener('mousemove', onMouseMove)
+        window.addEventListener('click', onClick)
 
-        let horizonOffset = 0
+        let gridOffset = 0
 
         const render = () => {
             ctx.clearRect(0, 0, width, height)
 
-            // Background Deep Space Gradient
+            // 1. Dynamic Radial Background Gradient
             const bgGrad = ctx.createRadialGradient(
                 width / 2, height / 2, 50,
                 width / 2, height / 2, Math.max(width, height)
             )
-
-            if (activeMode === 'STEALTH') {
-                bgGrad.addColorStop(0, '#15060a')
-                bgGrad.addColorStop(1, '#050204')
-            } else if (activeMode === 'WARP') {
-                bgGrad.addColorStop(0, '#10061e')
-                bgGrad.addColorStop(1, '#04020a')
-            } else {
-                bgGrad.addColorStop(0, '#061324')
-                bgGrad.addColorStop(1, '#030812')
-            }
+            bgGrad.addColorStop(0, activeTheme.bgStart)
+            bgGrad.addColorStop(1, activeTheme.bgEnd)
             ctx.fillStyle = bgGrad
             ctx.fillRect(0, 0, width, height)
 
-            // 3D Perspective Cyber-Grid Horizon (Racing AR Grid effect)
+            // 2. 3D Perspective Horizon Grid (Speed Lines)
             ctx.save()
-            const palette = colorPalettes[activeMode] || colorPalettes.CYBER
-            const mainColor = palette[0]
-            ctx.strokeStyle = mainColor
-            ctx.globalAlpha = 0.12
-            ctx.lineWidth = 1
+            ctx.strokeStyle = activeTheme.primary
+            ctx.globalAlpha = activeMode === 'WARP' ? 0.25 : 0.12
+            ctx.lineWidth = activeMode === 'WARP' ? 1.5 : 1.0
 
-            const horizonY = height * 0.65
-            horizonOffset = (horizonOffset + (activeMode === 'WARP' ? 4 : 1.5)) % 40
+            const horizonY = height * 0.62
+            gridOffset = (gridOffset + activeTheme.gridSpeed) % 40
 
-            // Perspective Grid Lines emanating from horizon vanishing point
             const vanishingX = width / 2
-            const perspectiveLines = 24
+            const perspectiveLines = 26
             for (let i = -perspectiveLines; i <= perspectiveLines; i++) {
                 const startX = vanishingX + (i * (width / perspectiveLines))
                 ctx.beginPath()
@@ -148,9 +177,9 @@ export default function Landing() {
                 ctx.stroke()
             }
 
-            // Horizontal moving speed lines
-            for (let y = horizonY; y < height; y += (y - horizonY + 5) * 0.15) {
-                const drawY = y + (horizonOffset * ((y - horizonY) / (height - horizonY)))
+            // Moving Horizontal Grid Lines
+            for (let y = horizonY; y < height; y += (y - horizonY + 6) * 0.14) {
+                const drawY = y + (gridOffset * ((y - horizonY) / (height - horizonY)))
                 if (drawY < height) {
                     ctx.beginPath()
                     ctx.moveTo(0, drawY)
@@ -160,49 +189,53 @@ export default function Landing() {
             }
             ctx.restore()
 
-            // Draw & Update Particles
+            // 3. Kinetic Particles & Gravitational Mouse Attraction
             particles.forEach((p) => {
-                // Interactive Mouse Gravity / Attraction
                 const dx = mouseXCanvas - p.x
                 const dy = mouseYCanvas - p.y
                 const dist = Math.sqrt(dx * dx + dy * dy)
 
-                if (dist < 220) {
-                    const force = (220 - dist) / 220
-                    p.vx += (dx / dist) * force * 0.4
-                    p.vy += (dy / dist) * force * 0.4
+                if (dist < 240) {
+                    const force = (240 - dist) / 240
+                    const speedMultiplier = activeMode === 'WARP' ? 1.8 : 0.6
+                    p.vx += (dx / dist) * force * speedMultiplier
+                    p.vy += (dy / dist) * force * speedMultiplier
                 }
 
                 p.x += p.vx
                 p.y += p.vy
-                p.vx *= 0.96
-                p.vy *= 0.96
 
-                // Boundary bounce
-                if (p.x < 0 || p.x > width) p.vx *= -1
-                if (p.y < 0 || p.y > height) p.vy *= -1
+                // Friction
+                p.vx *= 0.95
+                p.vy *= 0.95
 
-                const pColor = palette[p.baseColor] || palette[0]
+                // Screen Boundary Wrap
+                if (p.x < 0) p.x = width
+                if (p.x > width) p.x = 0
+                if (p.y < 0) p.y = height
+                if (p.y > height) p.y = 0
+
+                const pColor = activeTheme.palette[p.colorIndex] || activeTheme.primary
 
                 ctx.save()
                 ctx.globalAlpha = p.alpha
                 ctx.fillStyle = pColor
-                ctx.shadowBlur = 12
+                ctx.shadowBlur = activeMode === 'WARP' ? 15 : 8
                 ctx.shadowColor = pColor
                 ctx.beginPath()
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
                 ctx.fill()
                 ctx.restore()
 
-                // Connect nearby particles with laser links
+                // Connect nearby particles with laser grid lines
                 particles.forEach((p2) => {
                     const linkDx = p.x - p2.x
                     const linkDy = p.y - p2.y
                     const linkDist = Math.sqrt(linkDx * linkDx + linkDy * linkDy)
 
-                    if (linkDist < 95) {
+                    if (linkDist < 90) {
                         ctx.save()
-                        ctx.globalAlpha = (1 - linkDist / 95) * 0.18
+                        ctx.globalAlpha = (1 - linkDist / 90) * 0.15
                         ctx.strokeStyle = pColor
                         ctx.lineWidth = 0.8
                         ctx.beginPath()
@@ -214,11 +247,11 @@ export default function Landing() {
                 })
             })
 
-            // Render Shockwave Energy Rings (Click Ripple)
+            // 4. Click Shockwave Energy Pulse Rings
             for (let i = shockwaves.length - 1; i >= 0; i--) {
                 const sw = shockwaves[i]
-                sw.radius += 8
-                sw.alpha *= 0.94
+                sw.radius += activeMode === 'WARP' ? 12 : 8
+                sw.alpha *= 0.93
 
                 if (sw.alpha < 0.02 || sw.radius > sw.maxRadius) {
                     shockwaves.splice(i, 1)
@@ -229,7 +262,7 @@ export default function Landing() {
                 ctx.globalAlpha = sw.alpha
                 ctx.strokeStyle = sw.color
                 ctx.lineWidth = 3
-                ctx.shadowBlur = 20
+                ctx.shadowBlur = 25
                 ctx.shadowColor = sw.color
                 ctx.beginPath()
                 ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2)
@@ -244,8 +277,8 @@ export default function Landing() {
 
         return () => {
             window.removeEventListener('resize', handleResize)
-            window.removeEventListener('mousemove', onCanvasMouseMove)
-            window.removeEventListener('click', onCanvasClick)
+            window.removeEventListener('mousemove', onMouseMove)
+            window.removeEventListener('click', onClick)
             cancelAnimationFrame(animationFrameId)
         }
     }, [activeMode])
@@ -311,111 +344,185 @@ export default function Landing() {
     ]
 
     return (
-        <div className="landing-page-v3" style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh', color: '#F0EDE8' }}>
-            {/* HTML5 Canvas Background Engine */}
-            <canvas ref={canvasRef} style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'auto', cursor: 'crosshair' }} />
+        <div className="landing-page-v4" style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh', color: '#F0EDE8' }}>
+            
+            {/* INLINE CSS FOR SEAMLESS INFINITE MARQUEE LOOP */}
+            <style>{`
+                @keyframes marqueeLoop {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                }
+                .ticker-container {
+                    width: 100vw;
+                    position: relative;
+                    left: 50%;
+                    right: 50%;
+                    margin-left: -50vw;
+                    margin-right: -50vw;
+                    overflow: hidden;
+                    background: rgba(8, 14, 28, 0.85);
+                    backdrop-filter: blur(12px);
+                    border-top: 1px solid ${activeTheme.border};
+                    border-bottom: 1px solid ${activeTheme.border};
+                    padding: 0.85rem 0;
+                    margin-top: 4rem;
+                    margin-bottom: 5rem;
+                }
+                .ticker-wrapper {
+                    display: flex;
+                    width: max-content;
+                    animation: marqueeLoop ${activeMode === 'WARP' ? '12s' : '22s'} linear infinite;
+                }
+                .ticker-wrapper:hover {
+                    animation-play-state: paused;
+                }
+                .ticker-group {
+                    display: flex;
+                    align-items: center;
+                    gap: 3rem;
+                    padding-right: 3rem;
+                    white-space: nowrap;
+                    font-family: var(--font-mono);
+                    font-size: 0.76rem;
+                    font-weight: 800;
+                    letter-spacing: 0.22em;
+                    text-transform: uppercase;
+                    color: ${activeTheme.primary};
+                }
+            `}</style>
 
-            {/* TOP AR HUD STATUS BAR */}
+            {/* Canvas WebGL Background */}
+            <canvas ref={canvasRef} style={{ position: 'fixed', inset: 0, zIndex: 0, cursor: 'crosshair' }} />
+
+            {/* HIGH-END FIXED AR HUD HEADER (ZERO OVERLAPS) */}
             <header style={{
                 position: 'fixed',
                 top: 0,
                 left: 0,
                 right: 0,
-                zIndex: 50,
-                padding: '1rem 2rem',
+                zIndex: 100,
+                padding: '0.85rem 2rem',
                 display: 'flex',
                 justify: 'space-between',
                 alignItems: 'center',
-                background: 'rgba(5, 10, 20, 0.65)',
-                backdropFilter: 'blur(15px)',
-                borderBottom: '1px solid rgba(0, 212, 255, 0.2)'
+                background: 'rgba(5, 10, 20, 0.88)',
+                backdropFilter: 'blur(20px)',
+                borderBottom: `1px solid ${activeTheme.border}`,
+                boxShadow: `0 4px 20px rgba(0,0,0,0.5)`
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                {/* Left Brand Identifier */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                     <div style={{
-                        width: '32px', height: '32px', borderRadius: '8px',
-                        background: 'linear-gradient(135deg, var(--cyan), var(--green))',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000'
+                        width: '36px', height: '36px', borderRadius: '10px',
+                        background: `linear-gradient(135deg, ${activeTheme.primary}, ${activeTheme.secondary})`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000',
+                        boxShadow: `0 0 20px ${activeTheme.primary}`
                     }}>
-                        <Shield size={18} />
+                        <Shield size={20} />
                     </div>
                     <div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', fontWeight: 900, color: '#fff', letterSpacing: '0.08em' }}>
-                            GRIDSHIELD AI <span style={{ fontSize: '0.6rem', color: 'var(--cyan)', background: 'rgba(0,212,255,0.15)', padding: '0.1rem 0.4rem', borderRadius: '4px' }}>v2.0 AR</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: 900, color: '#fff', letterSpacing: '0.08em' }}>
+                                GRIDSHIELD AI
+                            </span>
+                            <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', fontWeight: 800, background: activeTheme.badgeBg, color: activeTheme.primary, padding: '0.12rem 0.45rem', borderRadius: '4px', border: `1px solid ${activeTheme.border}` }}>
+                                v2.0 AR
+                            </span>
                         </div>
-                        <div style={{ fontSize: '0.55rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                        <div style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
                             E.ON INNOVATION CHALLENGE 2026 // PURPLE SOC
                         </div>
                     </div>
                 </div>
 
-                {/* HUD Live Clock & Mode Selectors */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                    <div className="sp-none" style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: '0.62rem' }}>
-                        <div style={{ color: 'var(--cyan)', fontWeight: 800 }}>{currentTime || '08:42:00 UTC'}</div>
-                        <div style={{ color: 'var(--text-muted)' }}>DEFCON 3 // 9.6M ASSETS</div>
+                {/* Right AR HUD Metadata & Dynamic Theme Switcher (Strict Layout Separation) */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1.75rem' }}>
+                    {/* Live Clock & Defcon Status (Isolated Block) */}
+                    <div className="sp-none" style={{ textAlignment: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.15rem' }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', fontWeight: 900, color: activeTheme.primary, letterSpacing: '0.05em' }}>
+                            {currentTime || '16:24:51 UTC'}
+                        </div>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
+                            {activeTheme.statusText}
+                        </div>
                     </div>
 
-                    <div style={{ display: 'flex', background: 'rgba(15, 20, 41, 0.8)', padding: '0.2rem', borderRadius: 'var(--radius-full)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                        {['CYBER', 'WARP', 'STEALTH'].map((mode) => (
-                            <button
-                                key={mode}
-                                onClick={() => setActiveMode(mode)}
-                                style={{
-                                    padding: '0.3rem 0.75rem',
-                                    borderRadius: 'var(--radius-full)',
-                                    background: activeMode === mode ? (mode === 'STEALTH' ? 'var(--red)' : mode === 'WARP' ? 'var(--purple)' : 'var(--cyan)') : 'transparent',
-                                    color: activeMode === mode ? '#000' : 'var(--text-secondary)',
-                                    border: 'none',
-                                    fontWeight: 800,
-                                    fontSize: '0.6rem',
-                                    fontFamily: 'var(--font-mono)',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.25s ease'
-                                }}
-                            >
-                                {mode}
-                            </button>
-                        ))}
+                    {/* Mode Buttons Switcher */}
+                    <div style={{
+                        display: 'flex',
+                        background: 'rgba(10, 15, 30, 0.9)',
+                        padding: '0.25rem',
+                        borderRadius: 'var(--radius-full)',
+                        border: `1px solid ${activeTheme.border}`
+                    }}>
+                        {['CYBER', 'WARP', 'STEALTH'].map((mode) => {
+                            const isActive = activeMode === mode
+                            const modeConfig = THEME_CONFIGS[mode]
+                            return (
+                                <button
+                                    key={mode}
+                                    onClick={() => setActiveMode(mode)}
+                                    style={{
+                                        padding: '0.35rem 0.85rem',
+                                        borderRadius: 'var(--radius-full)',
+                                        background: isActive ? modeConfig.primary : 'transparent',
+                                        color: isActive ? '#000' : 'var(--text-secondary)',
+                                        border: 'none',
+                                        fontWeight: 900,
+                                        fontSize: '0.62rem',
+                                        fontFamily: 'var(--font-mono)',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                                        boxShadow: isActive ? `0 0 15px ${modeConfig.primary}` : 'none'
+                                    }}
+                                >
+                                    {mode}
+                                </button>
+                            )
+                        })}
                     </div>
                 </div>
             </header>
 
-            {/* MAIN HERO SECTION */}
-            <main style={{ position: 'relative', zIndex: 10, paddingTop: '7rem', paddingBottom: '5rem', maxWidth: '1280px', margin: '0 auto', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '3rem', alignItems: 'center', minHeight: 'calc(85vh - 7rem)' }}>
+            {/* MAIN HERO CONTENT */}
+            <main style={{ position: 'relative', zIndex: 10, paddingTop: '7.5rem', paddingBottom: '5rem', maxWidth: '1280px', margin: '0 auto', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
+                
+                {/* Hero Grid Section */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '3rem', alignItems: 'center', minHeight: 'calc(80vh - 7rem)' }}>
                     
-                    {/* Left Column: Kinetic Text & Action Hub */}
+                    {/* Left Hero Column */}
                     <div style={{ textAlign: 'left' }}>
                         <motion.div
-                            initial={{ opacity: 0, x: -30 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.7 }}
-                            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', padding: '0.4rem 0.9rem', borderRadius: 'var(--radius-full)', background: 'rgba(0, 212, 255, 0.1)', border: '1px solid rgba(0, 212, 255, 0.3)', marginBottom: '1.5rem' }}
+                            key={activeMode}
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', padding: '0.4rem 0.9rem', borderRadius: 'var(--radius-full)', background: activeTheme.badgeBg, border: `1px solid ${activeTheme.border}`, marginBottom: '1.5rem' }}
                         >
-                            <Radio size={14} style={{ color: 'var(--cyan)', animation: 'pulse 1.5s infinite' }} />
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', fontWeight: 800, color: 'var(--cyan)', letterSpacing: '0.12em' }}>
-                                AUTONOMOUS PURPLE SOC ORCHESTRATION
+                            {activeMode === 'STEALTH' ? (
+                                <AlertTriangle size={14} style={{ color: activeTheme.primary, animation: 'pulse 1s infinite' }} />
+                            ) : (
+                                <Radio size={14} style={{ color: activeTheme.primary, animation: 'pulse 1.5s infinite' }} />
+                            )}
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', fontWeight: 900, color: activeTheme.primary, letterSpacing: '0.12em' }}>
+                                MODE: {activeTheme.name}
                             </span>
                         </motion.div>
 
                         <motion.h1
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.1 }}
+                            transition={{ duration: 0.7, delay: 0.1 }}
                             style={{
                                 fontSize: 'clamp(2.8rem, 6vw, 5.2rem)',
                                 fontWeight: 900,
                                 lineHeight: 0.95,
                                 letterSpacing: '-0.03em',
                                 textTransform: 'uppercase',
-                                background: activeMode === 'STEALTH'
-                                    ? 'linear-gradient(135deg, #ffffff 30%, #ff9f43 70%, #ff3366 100%)'
-                                    : activeMode === 'WARP'
-                                    ? 'linear-gradient(135deg, #ffffff 30%, #a855f7 70%, #00d4ff 100%)'
-                                    : 'linear-gradient(135deg, #ffffff 30%, #00d4ff 70%, #00ff88 100%)',
+                                background: `linear-gradient(135deg, #ffffff 25%, ${activeTheme.primary} 65%, ${activeTheme.secondary} 100%)`,
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
-                                filter: 'drop-shadow(0 0 35px rgba(0, 212, 255, 0.35))',
+                                filter: `drop-shadow(0 0 35px ${activeTheme.accentGlow})`,
                                 marginBottom: '1.25rem'
                             }}
                         >
@@ -425,17 +532,17 @@ export default function Landing() {
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                            style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '2rem', maxWidth: '580px' }}
+                            transition={{ duration: 0.7, delay: 0.2 }}
+                            style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: 1.65, marginBottom: '2rem', maxWidth: '580px' }}
                         >
-                            Autonomous AI-driven <strong style={{ color: '#fff' }}>Purple Team Platform</strong> protecting power distribution grids, substations, and <strong style={{ color: 'var(--cyan)' }}>9.6M customer DER energy assets</strong> with GraphSAGE GNN blast radius correlation and 1.14ms TinyML edge defense.
+                            Autonomous AI-driven <strong style={{ color: '#fff' }}>Purple Team Platform</strong> protecting power distribution grids, substations, and <strong style={{ color: activeTheme.primary }}>9.6M customer DER energy assets</strong> with GraphSAGE GNN blast radius correlation and 1.14ms TinyML edge defense.
                         </motion.p>
 
-                        {/* Interactive Buttons */}
+                        {/* Action Buttons */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.3 }}
+                            transition={{ duration: 0.7, delay: 0.3 }}
                             style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}
                         >
                             <Link
@@ -443,9 +550,9 @@ export default function Landing() {
                                 className="btn btn-primary"
                                 style={{
                                     display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
-                                    padding: '0.85rem 1.75rem', borderRadius: 'var(--radius-md)', fontWeight: 800,
-                                    fontSize: '0.88rem', background: activeMode === 'STEALTH' ? 'var(--red)' : activeMode === 'WARP' ? 'var(--purple)' : 'var(--cyan)',
-                                    color: '#000', boxShadow: '0 0 30px rgba(0,212,255,0.4)', border: 'none'
+                                    padding: '0.85rem 1.75rem', borderRadius: 'var(--radius-md)', fontWeight: 900,
+                                    fontSize: '0.88rem', background: activeTheme.primary,
+                                    color: '#000', boxShadow: `0 0 30px ${activeTheme.accentGlow}`, border: 'none'
                                 }}
                             >
                                 <Cpu size={18} />
@@ -460,10 +567,10 @@ export default function Landing() {
                                     display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
                                     padding: '0.85rem 1.75rem', borderRadius: 'var(--radius-md)', fontWeight: 800,
                                     fontSize: '0.88rem', background: 'rgba(15, 20, 41, 0.85)',
-                                    border: '1px solid rgba(0, 212, 255, 0.4)', color: '#fff'
+                                    border: `1px solid ${activeTheme.border}`, color: '#fff'
                                 }}
                             >
-                                <Globe size={18} style={{ color: 'var(--cyan)' }} />
+                                <Globe size={18} style={{ color: activeTheme.primary }} />
                                 GLOBAL DEFENSE V2
                             </Link>
 
@@ -483,11 +590,15 @@ export default function Landing() {
                             </a>
                         </motion.div>
 
-                        {/* Live Telemetry Counter Badges */}
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', background: 'rgba(15, 20, 41, 0.75)', padding: '1rem', borderRadius: 'var(--radius-lg)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                        {/* Telemetry Stat Cards */}
+                        <div style={{
+                            display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem',
+                            background: 'rgba(10, 15, 30, 0.8)', padding: '1rem',
+                            borderRadius: 'var(--radius-lg)', border: `1px solid ${activeTheme.border}`
+                        }}>
                             <div>
                                 <div style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>PROTECTED ASSETS</div>
-                                <div style={{ fontSize: '1.25rem', fontWeight: 900, fontFamily: 'var(--font-mono)', color: 'var(--cyan)' }}>9.6M</div>
+                                <div style={{ fontSize: '1.25rem', fontWeight: 900, fontFamily: 'var(--font-mono)', color: activeTheme.primary }}>9.6M</div>
                             </div>
                             <div>
                                 <div style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>EDGE LATENCY</div>
@@ -495,73 +606,73 @@ export default function Landing() {
                             </div>
                             <div>
                                 <div style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>GNN SAMPLING</div>
-                                <div style={{ fontSize: '1.25rem', fontWeight: 900, fontFamily: 'var(--font-mono)', color: 'var(--purple)' }}>K=2</div>
+                                <div style={{ fontSize: '1.25rem', fontWeight: 900, fontFamily: 'var(--font-mono)', color: activeTheme.secondary }}>K=2</div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Right Column: 3D Holographic Interactive HUD Card (Parallax Tilt on Mouse Move) */}
+                    {/* Right Hero Column: 3D Holographic Interactive HUD Card */}
                     <div style={{ perspective: 1000 }} onMouseMove={handleMouseMove} onMouseLeave={() => { mouseX.set(0); mouseY.set(0); }}>
                         <motion.div
                             style={{
                                 rotateX,
                                 rotateY,
                                 transformStyle: 'preserve-3d',
-                                background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(9, 13, 22, 0.95))',
-                                border: '1px solid rgba(0, 212, 255, 0.4)',
+                                background: activeTheme.cardBg,
+                                border: `1px solid ${activeTheme.border}`,
                                 borderRadius: 'var(--radius-xl)',
                                 padding: '2rem',
-                                boxShadow: '0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(0,212,255,0.15)',
+                                boxShadow: `0 20px 50px rgba(0,0,0,0.6), 0 0 35px ${activeTheme.accentGlow}`,
                                 position: 'relative'
                             }}
                         >
-                            {/* Card Top AR Scanner Sweep Bar */}
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem' }}>
+                            {/* Card Radar Header */}
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: `1px solid ${activeTheme.border}`, paddingBottom: '1rem' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                                    <Crosshair size={18} style={{ color: 'var(--cyan)', animation: 'spin 10s linear infinite' }} />
-                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 800, color: '#fff' }}>
-                                        REAL-TIME TACTICAL GRID SCANNER
+                                    <Crosshair size={18} style={{ color: activeTheme.primary, animation: 'spin 10s linear infinite' }} />
+                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', fontWeight: 900, color: '#fff' }}>
+                                        TACTICAL GRID RADAR SCOPE
                                     </span>
                                 </div>
-                                <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', background: 'rgba(0, 255, 136, 0.15)', color: 'var(--green)', padding: '0.2rem 0.5rem', borderRadius: '4px', border: '1px solid rgba(0, 255, 136, 0.3)' }}>
-                                    ACTIVE RADAR
+                                <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', fontWeight: 800, background: activeTheme.badgeBg, color: activeTheme.primary, padding: '0.2rem 0.5rem', borderRadius: '4px', border: `1px solid ${activeTheme.border}` }}>
+                                    SCANNING ACTIVE
                                 </span>
                             </div>
 
-                            {/* Simulated Tactical Radar Canvas Display */}
-                            <div style={{ position: 'relative', width: '100%', height: '200px', background: '#040814', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: '1px solid rgba(0, 212, 255, 0.2)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%)' }} />
+                            {/* Radar Canvas Sweep Display */}
+                            <div style={{ position: 'relative', width: '100%', height: '200px', background: '#030712', borderRadius: 'var(--radius-md)', overflow: 'hidden', border: `1px solid ${activeTheme.border}`, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(circle, ${activeTheme.primary}20 0%, transparent 70%)` }} />
                                 
-                                {/* Radar concentric circles */}
-                                <div style={{ position: 'absolute', width: '160px', height: '160px', borderRadius: '50%', border: '1px solid rgba(0, 212, 255, 0.25)' }} />
-                                <div style={{ position: 'absolute', width: '100px', height: '100px', borderRadius: '50%', border: '1px solid rgba(0, 212, 255, 0.2)' }} />
-                                <div style={{ position: 'absolute', width: '40px', height: '40px', borderRadius: '50%', border: '1px solid rgba(0, 212, 255, 0.3)' }} />
+                                {/* Concentric Radar Circles */}
+                                <div style={{ position: 'absolute', width: '160px', height: '160px', borderRadius: '50%', border: `1px solid ${activeTheme.primary}40` }} />
+                                <div style={{ position: 'absolute', width: '100px', height: '100px', borderRadius: '50%', border: `1px solid ${activeTheme.primary}30` }} />
+                                <div style={{ position: 'absolute', width: '40px', height: '40px', borderRadius: '50%', border: `1px solid ${activeTheme.primary}50` }} />
                                 
-                                {/* Crosshair lines */}
-                                <div style={{ position: 'absolute', width: '100%', height: '1px', background: 'rgba(0, 212, 255, 0.15)' }} />
-                                <div style={{ position: 'absolute', width: '1px', height: '100%', background: 'rgba(0, 212, 255, 0.15)' }} />
+                                {/* Crosshair Lines */}
+                                <div style={{ position: 'absolute', width: '100%', height: '1px', background: `${activeTheme.primary}30` }} />
+                                <div style={{ position: 'absolute', width: '1px', height: '100%', background: `${activeTheme.primary}30` }} />
 
-                                {/* Substation threat dots */}
+                                {/* Substation Threat Nodes */}
                                 <div style={{ position: 'absolute', top: '35%', left: '42%', width: '8px', height: '8px', borderRadius: '50%', background: 'var(--red)', boxShadow: '0 0 10px var(--red)' }} />
                                 <div style={{ position: 'absolute', top: '65%', left: '68%', width: '6px', height: '6px', borderRadius: '50%', background: 'var(--green)', boxShadow: '0 0 8px var(--green)' }} />
-                                <div style={{ position: 'absolute', top: '25%', left: '75%', width: '6px', height: '6px', borderRadius: '50%', background: 'var(--cyan)', boxShadow: '0 0 8px var(--cyan)' }} />
+                                <div style={{ position: 'absolute', top: '25%', left: '75%', width: '6px', height: '6px', borderRadius: '50%', background: activeTheme.primary, boxShadow: `0 0 8px ${activeTheme.primary}` }} />
 
                                 <div style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
-                                    <div style={{ fontSize: '0.62rem', fontFamily: 'var(--font-mono)', color: 'var(--cyan)', letterSpacing: '0.1em' }}>GRIDSHIELD GRAPH NODE SCAN</div>
-                                    <div style={{ fontSize: '1.4rem', fontWeight: 900, fontFamily: 'var(--font-mono)', color: '#fff', marginTop: '0.2rem' }}>9,600,000 ASSETS</div>
-                                    <div style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', color: 'var(--green)' }}>● ALL DER SUBSTATIONS MONITORED</div>
+                                    <div style={{ fontSize: '0.62rem', fontFamily: 'var(--font-mono)', color: activeTheme.primary, letterSpacing: '0.1em' }}>GRAPH NEURAL NETWORK</div>
+                                    <div style={{ fontSize: '1.4rem', fontWeight: 900, fontFamily: 'var(--font-mono)', color: '#fff', marginTop: '0.15rem' }}>9,600,000 ASSETS</div>
+                                    <div style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', color: 'var(--green)', marginTop: '0.1rem' }}>● ALL SUBSTATION NODES SECURED</div>
                                 </div>
                             </div>
 
-                            {/* Card Footer Features List */}
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.76rem', color: 'var(--text-secondary)' }}>
+                            {/* Card Footer Key Info */}
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', fontSize: '0.76rem', color: 'var(--text-secondary)' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed rgba(255,255,255,0.1)', paddingBottom: '0.4rem' }}>
                                     <span>NIS2 Incident Reporting</span>
                                     <strong style={{ color: 'var(--green)' }}>Article 21 Compliant</strong>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed rgba(255,255,255,0.1)', paddingBottom: '0.4rem' }}>
-                                    <span>Privacy Leak Risk</span>
-                                    <strong style={{ color: 'var(--cyan)' }}>0% (Zero Telemetry Ingestion)</strong>
+                                    <span>Telemetry Privacy Guarantee</span>
+                                    <strong style={{ color: activeTheme.primary }}>0% Leak (Edge Local)</strong>
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                     <span>TCO Baseline Target</span>
@@ -573,31 +684,34 @@ export default function Landing() {
 
                 </div>
 
-                {/* KINETIC TICKER MARQUEE */}
-                <div style={{
-                    width: '100vw', marginLeft: 'calc(-50vw + 50%)', overflow: 'hidden',
-                    background: 'rgba(15, 20, 41, 0.7)', borderTop: '1px solid rgba(0, 212, 255, 0.2)',
-                    borderBottom: '1px solid rgba(0, 212, 255, 0.2)', padding: '0.85rem 0',
-                    margin: '4rem 0 6rem', whiteSpace: 'nowrap'
-                }}>
-                    <div style={{
-                        display: 'inline-flex', alignItems: 'center', gap: '3rem',
-                        fontFamily: 'var(--font-mono)', fontSize: '0.76rem', fontWeight: 800,
-                        letterSpacing: '0.2em', color: 'var(--cyan)', textTransform: 'uppercase'
-                    }}>
-                        <span>⚡ AUTONOMOUS RED TEAM AI</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
-                        <span>🛡️ GRAPHSAGE GNN BLAST RADIUS</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
-                        <span>⚡ 1.14ms EDGE TINYML INFERENCE</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
-                        <span>🔒 9.6M DER ASSET DEFENSE</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
-                        <span>🌐 US NERC-CIP & EU NIS2 READY</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
-                        <span>⚡ AUTONOMOUS RED TEAM AI</span>
+                {/* INFINITE SEAMLESS TICKER MARQUEE (NO STATIC CUTOFFS) */}
+                <div className="ticker-container">
+                    <div className="ticker-wrapper">
+                        {/* Duplicate Group 1 */}
+                        <div className="ticker-group">
+                            <span>⚡ AUTONOMOUS RED TEAM AI</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                            <span>🛡️ GRAPHSAGE GNN BLAST RADIUS</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                            <span>⚡ 1.14ms EDGE TINYML INFERENCE</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                            <span>🔒 9.6M DER ASSET DEFENSE</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                            <span>🌐 US NERC-CIP & EU NIS2 READY</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                            <span>💚 CLUSTER 5 ADOPTION FRAMEWORK</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                        </div>
+                        {/* Duplicate Group 2 for Infinite Seamless Loop */}
+                        <div className="ticker-group">
+                            <span>⚡ AUTONOMOUS RED TEAM AI</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                            <span>🛡️ GRAPHSAGE GNN BLAST RADIUS</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                            <span>⚡ 1.14ms EDGE TINYML INFERENCE</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                            <span>🔒 9.6M DER ASSET DEFENSE</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                            <span>🌐 US NERC-CIP & EU NIS2 READY</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                            <span>💚 CLUSTER 5 ADOPTION FRAMEWORK</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
+                        </div>
                     </div>
                 </div>
 
-                {/* ADVANCED MODULE CARDS (01 - 04) */}
+                {/* PLATFORM MODULE SUITE CARDS */}
                 <div style={{ marginBottom: '6rem' }}>
                     <div style={{ textAlign: 'left', marginBottom: '2.5rem' }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--cyan)', letterSpacing: '0.2em' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: activeTheme.primary, letterSpacing: '0.2em' }}>
                             PLATFORM CAPABILITIES // MODULE SUITE
                         </span>
                         <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#fff', marginTop: '0.25rem' }}>
@@ -615,14 +729,14 @@ export default function Landing() {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.6, delay: idx * 0.1 }}
                                     style={{
-                                        background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(9, 13, 22, 0.96))',
-                                        border: `1px solid ${m.accent}40`,
+                                        background: activeTheme.cardBg,
+                                        border: `1px solid ${m.accent}45`,
                                         borderRadius: 'var(--radius-lg)',
                                         padding: '1.75rem',
                                         textAlign: 'left',
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        justifyContent: 'space-between',
+                                        justify: 'space-between',
                                         boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
                                         position: 'relative'
                                     }}
@@ -660,10 +774,10 @@ export default function Landing() {
                     </div>
                 </div>
 
-                {/* EXECUTIVE LEADERSHIP CREW */}
+                {/* LEADERSHIP CREW */}
                 <div style={{ textAlign: 'left', marginBottom: '4rem' }}>
                     <div style={{ marginBottom: '2rem' }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--cyan)', letterSpacing: '0.2em' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: activeTheme.primary, letterSpacing: '0.2em' }}>
                             CORE DEVELOPMENT TEAM // HACKATHON BUILDERS
                         </span>
                         <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#fff', marginTop: '0.25rem' }}>
@@ -674,7 +788,7 @@ export default function Landing() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
                         {teamMembers.map((m, idx) => (
                             <div key={idx} style={{
-                                background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(9, 13, 22, 0.96))',
+                                background: activeTheme.cardBg,
                                 border: `1px solid ${m.color}40`,
                                 borderRadius: 'var(--radius-lg)',
                                 padding: '1.5rem',
