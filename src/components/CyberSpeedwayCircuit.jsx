@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import {
     Swords, Shield, Cpu, Globe, ChevronRight, Zap, Flame, Gauge,
@@ -7,6 +7,7 @@ import {
 import { motion } from 'framer-motion'
 
 export default function CyberSpeedwayCircuit({ activeTheme }) {
+    const carCanvasRef = useRef(null)
     const [boostMode, setBoostMode] = useState('TELEMETRY') // TELEMETRY | NITRO | PITSTOP
     const [hoveredCard, setHoveredCard] = useState(null)
     const [tachometerRpm, setTachometerRpm] = useState(8400)
@@ -18,6 +19,114 @@ export default function CyberSpeedwayCircuit({ activeTheme }) {
         }, 300)
         return () => clearInterval(interval)
     }, [])
+
+    // 60 FPS Moving Yellow Vintage Car & Coastal Parallax Highway Animation
+    useEffect(() => {
+        const canvas = carCanvasRef.current
+        if (!canvas) return
+        const ctx = canvas.getContext('2d')
+        let animId
+        let width = (canvas.width = canvas.parentElement.clientWidth || 800)
+        let height = (canvas.height = 180)
+
+        // Load car texture
+        const carImg = new Image()
+        carImg.src = '/yellow_vintage_car.png'
+
+        let roadOffset = 0
+        let waveOffset = 0
+        let wheelAngle = 0
+
+        const render = () => {
+            ctx.clearRect(0, 0, width, height)
+            const speedMultiplier = boostMode === 'NITRO' ? 2.5 : 1.0
+            roadOffset = (roadOffset + 8 * speedMultiplier) % 60
+            waveOffset = (waveOffset + 0.05) % (Math.PI * 2)
+            wheelAngle = (wheelAngle + 0.2 * speedMultiplier) % (Math.PI * 2)
+
+            // 1. Sky & Ocean Sunset Gradient
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, height)
+            skyGrad.addColorStop(0, '#0c162d')
+            skyGrad.addColorStop(0.4, '#1e294b')
+            skyGrad.addColorStop(0.7, '#f97316')
+            skyGrad.addColorStop(1, '#0f172a')
+            ctx.fillStyle = skyGrad
+            ctx.fillRect(0, 0, width, height)
+
+            // 2. Parallax Ocean Waves
+            ctx.save()
+            ctx.fillStyle = '#0284c7'
+            ctx.globalAlpha = 0.6
+            ctx.beginPath()
+            ctx.moveTo(0, height * 0.55)
+            for (let x = 0; x <= width; x += 20) {
+                ctx.lineTo(x, height * 0.55 + Math.sin((x * 0.03) + waveOffset) * 4)
+            }
+            ctx.lineTo(width, height)
+            ctx.lineTo(0, height)
+            ctx.fill()
+            ctx.restore()
+
+            // 3. Parallax Highway Road Asphalt
+            const roadY = height * 0.62
+            const roadH = height * 0.38
+            ctx.fillStyle = '#0f172a'
+            ctx.fillRect(0, roadY, width, roadH)
+
+            // Guardrail Lines
+            ctx.strokeStyle = '#38bdf8'
+            ctx.lineWidth = 2
+            ctx.beginPath()
+            ctx.moveTo(0, roadY)
+            ctx.lineTo(width, roadY)
+            ctx.stroke()
+
+            // Animated Passing Lane Dashes
+            ctx.save()
+            ctx.strokeStyle = '#facc15'
+            ctx.lineWidth = 3
+            ctx.setLineDash([30, 30])
+            ctx.lineDashOffset = -roadOffset
+            ctx.beginPath()
+            ctx.moveTo(0, roadY + roadH * 0.5)
+            ctx.lineTo(width, roadY + roadH * 0.5)
+            ctx.stroke()
+            ctx.restore()
+
+            // 4. Draw Photorealistic Yellow Vintage Car
+            if (carImg.complete && carImg.naturalWidth > 0) {
+                ctx.save()
+                // Render Parallax Background Car Image
+                ctx.globalAlpha = 0.85
+                ctx.drawImage(carImg, 0, 0, width, height)
+                ctx.restore()
+            }
+
+            // 5. Draw Animated Motion Blur Lines & Exhaust Nitro Particles
+            if (boostMode === 'NITRO') {
+                ctx.save()
+                ctx.strokeStyle = '#ff0055'
+                ctx.shadowBlur = 15
+                ctx.shadowColor = '#ff0055'
+                ctx.lineWidth = 2
+                for (let i = 0; i < 6; i++) {
+                    const lineY = roadY + (i * 8) + 10
+                    const lineX = (Math.random() * width)
+                    ctx.beginPath()
+                    ctx.moveTo(lineX, lineY)
+                    ctx.lineTo(lineX - 40, lineY)
+                    ctx.stroke()
+                }
+                ctx.restore()
+            }
+
+            animId = requestAnimationFrame(render)
+        }
+
+        render()
+
+        return () => cancelAnimationFrame(animId)
+    }, [boostMode])
 
     const checkpoints = [
         {
@@ -141,7 +250,7 @@ export default function CyberSpeedwayCircuit({ activeTheme }) {
                 </div>
             </div>
 
-            {/* CINEMATIC VINTAGE COASTAL HIGHWAY CAR TRACKING BANNER */}
+            {/* CINEMATIC VINTAGE COASTAL HIGHWAY CAR TRACKING BANNER (60 FPS CANVAS ANIMATION) */}
             <div style={{
                 position: 'relative',
                 width: '100%',
@@ -153,14 +262,13 @@ export default function CyberSpeedwayCircuit({ activeTheme }) {
                 boxShadow: '0 15px 40px rgba(0,0,0,0.6)',
                 background: '#040814'
             }}>
-                <img
-                    src="/yellow_vintage_car.png"
-                    alt="Yellow Vintage Car Coastal Highway Tracking"
+                {/* 60 FPS HTML5 Moving Canvas */}
+                <canvas
+                    ref={carCanvasRef}
                     style={{
                         width: '100%',
                         height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'center 60%',
+                        display: 'block',
                         filter: boostMode === 'NITRO' ? 'hue-rotate(-20deg) saturate(1.4)' : 'brightness(0.9) contrast(1.15)',
                         transition: 'filter 0.5s ease'
                     }}
