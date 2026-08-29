@@ -141,6 +141,89 @@ export default function CyberSpeedwayCircuit({ activeTheme }) {
                 </div>
             </div>
 
+            {/* CINEMATIC VINTAGE COASTAL HIGHWAY CAR TRACKING BANNER */}
+            <div style={{
+                position: 'relative',
+                width: '100%',
+                height: '180px',
+                borderRadius: 'var(--radius-xl)',
+                overflow: 'hidden',
+                border: '1px solid rgba(0, 212, 255, 0.35)',
+                marginBottom: '2rem',
+                boxShadow: '0 15px 40px rgba(0,0,0,0.6)',
+                background: '#040814'
+            }}>
+                <img
+                    src="/yellow_vintage_car.png"
+                    alt="Yellow Vintage Car Coastal Highway Tracking"
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center 60%',
+                        filter: boostMode === 'NITRO' ? 'hue-rotate(-20deg) saturate(1.4)' : 'brightness(0.9) contrast(1.15)',
+                        transition: 'filter 0.5s ease'
+                    }}
+                />
+                
+                {/* Overlay Gradient for Cyber Hud Integration */}
+                <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(90deg, rgba(6, 10, 24, 0.85) 0%, rgba(6, 10, 24, 0.2) 50%, rgba(6, 10, 24, 0.85) 100%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justify: 'space-between',
+                    padding: '1.25rem'
+                }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{
+                            fontSize: '0.64rem',
+                            fontFamily: 'var(--font-mono)',
+                            fontWeight: 900,
+                            color: 'var(--yellow)',
+                            background: 'rgba(0,0,0,0.7)',
+                            padding: '0.25rem 0.65rem',
+                            borderRadius: 'var(--radius-sm)',
+                            border: '1px solid rgba(255, 209, 102, 0.5)',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.4rem'
+                        }}>
+                            <Flame size={12} style={{ animation: 'pulse 1s infinite' }} /> COASTAL HIGHWAY SPEEDWAY // 4K CINEMATIC LOOP
+                        </span>
+
+                        <span style={{
+                            fontSize: '0.6rem',
+                            fontFamily: 'var(--font-mono)',
+                            fontWeight: 800,
+                            color: '#fff',
+                            background: 'rgba(0, 212, 255, 0.25)',
+                            padding: '0.2rem 0.5rem',
+                            borderRadius: '4px',
+                            border: '1px solid rgba(0, 212, 255, 0.5)'
+                        }}>
+                            TRACKING SHOT 60FPS
+                        </span>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                        <div>
+                            <div style={{ fontSize: '0.62rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+                                VEHICLE TELEMETRY
+                            </div>
+                            <div style={{ fontSize: '1.2rem', fontFamily: 'var(--font-mono)', fontWeight: 900, color: '#fff' }}>
+                                VINTAGE GT SPEEDSTER
+                            </div>
+                        </div>
+
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900, color: 'var(--green)' }}>
+                            ● DER TELEMETRY SYNCED
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {/* F1 Cyber Speedway Grid Track Layout */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: '1.75rem', position: 'relative' }}>
                 {checkpoints.map((cp, idx) => {
