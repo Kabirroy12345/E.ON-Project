@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
 import GridWeatherWidget from '../components/GridWeatherWidget'
+import CyberSpeedwayCircuit from '../components/CyberSpeedwayCircuit'
 
 // THEME CONFIGURATIONS (CYBER, WARP, STEALTH)
 const THEME_CONFIGS = {
@@ -705,70 +706,9 @@ export default function Landing() {
                     <GridWeatherWidget />
                 </div>
 
-                {/* PLATFORM MODULE SUITE CARDS */}
+                {/* DYNAMIC CYBER SPEEDWAY RACING CIRCUIT (REPLACES STATIC MODULE CARDS) */}
                 <div style={{ marginBottom: '6rem' }}>
-                    <div style={{ textAlign: 'left', marginBottom: '2.5rem' }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: activeTheme.primary, letterSpacing: '0.2em' }}>
-                            PLATFORM CAPABILITIES // MODULE SUITE
-                        </span>
-                        <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#fff', marginTop: '0.25rem' }}>
-                            Integrated Purple Team Architecture
-                        </h2>
-                    </div>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: '1.5rem' }}>
-                        {modules.map((m, idx) => {
-                            const IconComp = m.icon
-                            return (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ opacity: 0, y: 25 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, delay: idx * 0.1 }}
-                                    style={{
-                                        background: activeTheme.cardBg,
-                                        border: `1px solid ${m.accent}45`,
-                                        borderRadius: 'var(--radius-lg)',
-                                        padding: '1.75rem',
-                                        textAlign: 'left',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justify: 'space-between',
-                                        boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
-                                        position: 'relative'
-                                    }}
-                                >
-                                    <div>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-                                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.78rem', fontWeight: 900, color: m.accent }}>
-                                                {m.num} // {m.category}
-                                            </span>
-                                            <IconComp size={20} style={{ color: m.accent }} />
-                                        </div>
-
-                                        <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', marginBottom: '0.6rem' }}>{m.title}</h3>
-                                        <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.5rem' }}>{m.desc}</p>
-                                    </div>
-
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                                        <span style={{ fontSize: '0.62rem', fontFamily: 'var(--font-mono)', background: `${m.accent}15`, color: m.accent, padding: '0.2rem 0.5rem', borderRadius: '4px', border: `1px solid ${m.accent}30` }}>
-                                            {m.tag}
-                                        </span>
-                                        <Link
-                                            to={m.link}
-                                            style={{
-                                                display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-                                                fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 800,
-                                                color: m.accent, textDecoration: 'none'
-                                            }}
-                                        >
-                                            OPEN <ChevronRight size={14} />
-                                        </Link>
-                                    </div>
-                                </motion.div>
-                            )
-                        })}
-                    </div>
+                    <CyberSpeedwayCircuit activeTheme={activeTheme} />
                 </div>
 
                 {/* LEADERSHIP CREW */}
