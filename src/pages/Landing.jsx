@@ -519,14 +519,12 @@ export default function Landing() {
                                 lineHeight: 0.95,
                                 letterSpacing: '-0.03em',
                                 textTransform: 'uppercase',
-                                background: `linear-gradient(135deg, #ffffff 25%, ${activeTheme.primary} 65%, ${activeTheme.secondary} 100%)`,
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                filter: `drop-shadow(0 0 35px ${activeTheme.accentGlow})`,
+                                color: '#ffffff',
+                                textShadow: `0 0 35px ${activeTheme.primary}, 0 0 10px rgba(255,255,255,0.8)`,
                                 marginBottom: '1.25rem'
                             }}
                         >
-                            GRIDSHIELD AI
+                            GRIDSHIELD
                         </motion.h1>
 
                         <motion.p
@@ -535,23 +533,23 @@ export default function Landing() {
                             transition={{ duration: 0.7, delay: 0.2 }}
                             style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: 1.65, marginBottom: '2rem', maxWidth: '580px' }}
                         >
-                            Autonomous AI-driven <strong style={{ color: '#fff' }}>Purple Team Platform</strong> protecting power distribution grids, substations, and <strong style={{ color: activeTheme.primary }}>9.6M customer DER energy assets</strong> with GraphSAGE GNN blast radius correlation and 1.14ms TinyML edge defense.
+                            Autonomous <strong style={{ color: '#fff' }}>Purple SOC Architecture</strong> protecting energy distribution grids, substations, and <strong style={{ color: activeTheme.primary }}>9.6M customer DER assets</strong> with GraphSAGE 2-hop neighborhood sampling and 1.14ms edge microcontroller defense.
                         </motion.p>
 
-                        {/* Action Buttons */}
+                        {/* Action Buttons (PDF Report Completely Removed) */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.7, delay: 0.3 }}
-                            style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}
+                            style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}
                         >
                             <Link
                                 to="/dashboard"
                                 className="btn btn-primary"
                                 style={{
                                     display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
-                                    padding: '0.85rem 1.75rem', borderRadius: 'var(--radius-md)', fontWeight: 900,
-                                    fontSize: '0.88rem', background: activeTheme.primary,
+                                    padding: '0.9rem 2rem', borderRadius: 'var(--radius-md)', fontWeight: 900,
+                                    fontSize: '0.9rem', background: activeTheme.primary,
                                     color: '#000', boxShadow: `0 0 30px ${activeTheme.accentGlow}`, border: 'none'
                                 }}
                             >
@@ -565,29 +563,14 @@ export default function Landing() {
                                 className="btn btn-secondary"
                                 style={{
                                     display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
-                                    padding: '0.85rem 1.75rem', borderRadius: 'var(--radius-md)', fontWeight: 800,
-                                    fontSize: '0.88rem', background: 'rgba(15, 20, 41, 0.85)',
+                                    padding: '0.9rem 2rem', borderRadius: 'var(--radius-md)', fontWeight: 800,
+                                    fontSize: '0.9rem', background: 'rgba(15, 20, 41, 0.85)',
                                     border: `1px solid ${activeTheme.border}`, color: '#fff'
                                 }}
                             >
                                 <Globe size={18} style={{ color: activeTheme.primary }} />
-                                GLOBAL DEFENSE V2
+                                GLOBAL DEFENSE MATRIX V2
                             </Link>
-
-                            <a
-                                href="/GridShield_AI_Zero_to_Hero_Report.pdf"
-                                download="GridShield_AI_Zero_to_Hero_Report.pdf"
-                                className="btn btn-secondary"
-                                style={{
-                                    display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-                                    padding: '0.85rem 1.25rem', borderRadius: 'var(--radius-md)', fontWeight: 700,
-                                    fontSize: '0.82rem', background: 'rgba(0, 255, 136, 0.08)',
-                                    border: '1px solid rgba(0, 255, 136, 0.3)', color: 'var(--green)'
-                                }}
-                            >
-                                <Download size={16} />
-                                PDF REPORT
-                            </a>
                         </motion.div>
 
                         {/* Telemetry Stat Cards */}
