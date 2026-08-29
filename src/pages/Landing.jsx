@@ -9,6 +9,7 @@ import { motion, useMotionValue, useTransform } from 'framer-motion'
 import GridWeatherWidget from '../components/GridWeatherWidget'
 import CyberSpeedwayCircuit from '../components/CyberSpeedwayCircuit'
 import CyberParticleNetworkBackground from '../components/CyberParticleNetworkBackground'
+import CyberHeroHeading from '../components/CyberHeroHeading'
 
 // THEME CONFIGURATIONS (CYBER, WARP, STEALTH)
 const THEME_CONFIGS = {
@@ -520,23 +521,7 @@ export default function Landing() {
                             </span>
                         </motion.div>
 
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.7, delay: 0.1 }}
-                            style={{
-                                fontSize: 'clamp(2.8rem, 6vw, 5.2rem)',
-                                fontWeight: 900,
-                                lineHeight: 0.95,
-                                letterSpacing: '-0.03em',
-                                textTransform: 'uppercase',
-                                color: '#ffffff',
-                                textShadow: `0 0 35px ${activeTheme.primary}, 0 0 10px rgba(255,255,255,0.8)`,
-                                marginBottom: '1.25rem'
-                            }}
-                        >
-                            GRIDSHIELD
-                        </motion.h1>
+                        <CyberHeroHeading text="GRIDSHIELD AI" activeTheme={activeTheme} />
 
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
