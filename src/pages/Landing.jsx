@@ -411,25 +411,33 @@ export default function Landing() {
                 boxShadow: `0 4px 20px rgba(0,0,0,0.5)`
             }}>
                 {/* Left Brand Identifier */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     <div style={{
-                        width: '36px', height: '36px', borderRadius: '10px',
-                        background: `linear-gradient(135deg, ${activeTheme.primary}, ${activeTheme.secondary})`,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000',
-                        boxShadow: `0 0 20px ${activeTheme.primary}`
+                        width: '50px',
+                        height: '50px',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        border: `2px solid ${activeTheme.primary}`,
+                        boxShadow: `0 0 25px ${activeTheme.primary}`,
+                        flexShrink: 0,
+                        background: '#040914'
                     }}>
-                        <Shield size={20} />
+                        <img
+                            src="/gridshield_cyber_logo.png"
+                            alt="GridShield Emblem"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        />
                     </div>
                     <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: 900, color: '#fff', letterSpacing: '0.08em' }}>
-                                GRIDSHIELD AI
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '1rem', fontWeight: 900, color: '#fff', letterSpacing: '0.08em' }}>
+                                GRIDSHIELD
                             </span>
-                            <span style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', fontWeight: 800, background: activeTheme.badgeBg, color: activeTheme.primary, padding: '0.12rem 0.45rem', borderRadius: '4px', border: `1px solid ${activeTheme.border}` }}>
+                            <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', fontWeight: 800, background: activeTheme.badgeBg, color: activeTheme.primary, padding: '0.12rem 0.5rem', borderRadius: '4px', border: `1px solid ${activeTheme.border}` }}>
                                 v2.0 AR
                             </span>
                         </div>
-                        <div style={{ fontSize: '0.58rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                        <div style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
                             E.ON INNOVATION CHALLENGE 2026 // PURPLE SOC
                         </div>
                     </div>

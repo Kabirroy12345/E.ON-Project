@@ -276,14 +276,14 @@ export default function Layout() {
             <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
                 {/* Shield Logo with Orbit Animation */}
                 <NavLink to="/" className="sidebar-logo" style={{ textDecoration: 'none' }}>
-                    <div className="logo-icon-wrapper">
+                    <div className="logo-icon-wrapper" style={{ width: '48px', height: '48px' }}>
                         <div className="logo-orbit-ring"></div>
-                        <div className="logo-icon-inner" style={{ background: 'transparent', padding: '2px', boxShadow: '0 0 15px rgba(0, 212, 255, 0.5)' }}>
-                            <img src="/gridshield_logo.png" alt="GridShield AI" style={{ width: '100%', height: '100%', borderRadius: 'var(--radius-sm)', objectFit: 'cover', display: 'block' }} />
+                        <div className="logo-icon-inner" style={{ background: 'transparent', padding: '0px', boxShadow: '0 0 20px rgba(0, 212, 255, 0.6)', borderRadius: '10px', overflow: 'hidden' }}>
+                            <img src="/gridshield_cyber_logo.png" alt="GridShield AI" style={{ width: '100%', height: '100%', borderRadius: '10px', objectFit: 'cover', display: 'block' }} />
                         </div>
                     </div>
                     <div className="logo-text">
-                        <h1>GridShield AI</h1>
+                        <h1>GridShield</h1>
                         <span>PURPLE TEAM SOC v4.2</span>
                     </div>
                 </NavLink>
