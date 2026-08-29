@@ -8,10 +8,12 @@ import AssetShield from './pages/AssetShield'
 import GlobalDefense from './pages/GlobalDefense'
 import Architecture from './pages/Architecture'
 import Impact from './pages/Impact'
+import CyberAssistantChatbot from './components/CyberAssistantChatbot'
 
 function App() {
     return (
         <Router>
+            <CyberAssistantChatbot />
             <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route element={<Layout />}>

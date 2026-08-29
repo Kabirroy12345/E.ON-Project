@@ -6,6 +6,7 @@ import {
     Radio, Crosshair, RefreshCw, Maximize2, Compass, Play, AlertTriangle
 } from 'lucide-react'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
+import GridWeatherWidget from '../components/GridWeatherWidget'
 
 // THEME CONFIGURATIONS (CYBER, WARP, STEALTH)
 const THEME_CONFIGS = {
@@ -673,6 +674,11 @@ export default function Landing() {
                         </motion.div>
                     </div>
 
+                </div>
+
+                {/* LIVE SUBSTATION WEATHER & DER TELEMETRY WIDGET */}
+                <div style={{ marginTop: '4rem', marginBottom: '1rem' }}>
+                    <GridWeatherWidget />
                 </div>
 
                 {/* INFINITE SEAMLESS TICKER MARQUEE (NO STATIC CUTOFFS) */}
