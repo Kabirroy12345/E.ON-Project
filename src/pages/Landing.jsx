@@ -676,13 +676,8 @@ export default function Landing() {
 
                 </div>
 
-                {/* LIVE SUBSTATION WEATHER & DER TELEMETRY WIDGET */}
-                <div style={{ marginTop: '4rem', marginBottom: '1rem' }}>
-                    <GridWeatherWidget />
-                </div>
-
                 {/* INFINITE SEAMLESS TICKER MARQUEE (NO STATIC CUTOFFS) */}
-                <div className="ticker-container">
+                <div className="ticker-container" style={{ marginTop: '3.5rem', marginBottom: '4rem' }}>
                     <div className="ticker-wrapper">
                         {/* Duplicate Group 1 */}
                         <div className="ticker-group">
@@ -703,6 +698,11 @@ export default function Landing() {
                             <span>💚 CLUSTER 5 ADOPTION FRAMEWORK</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
                         </div>
                     </div>
+                </div>
+
+                {/* LIVE SUBSTATION WEATHER & DER TELEMETRY WIDGET */}
+                <div style={{ marginBottom: '6rem' }}>
+                    <GridWeatherWidget />
                 </div>
 
                 {/* PLATFORM MODULE SUITE CARDS */}
