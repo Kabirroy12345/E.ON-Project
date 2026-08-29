@@ -20,112 +20,202 @@ export default function CyberSpeedwayCircuit({ activeTheme }) {
         return () => clearInterval(interval)
     }, [])
 
-    // 60 FPS Moving Yellow Vintage Car & Coastal Parallax Highway Animation
+    // 60 FPS Mouse-Tracking F1 Race Car Physics Engine
     useEffect(() => {
         const canvas = carCanvasRef.current
         if (!canvas) return
         const ctx = canvas.getContext('2d')
         let animId
+
         let width = (canvas.width = canvas.parentElement.clientWidth || 800)
-        let height = (canvas.height = 180)
+        let height = (canvas.height = 200)
 
-        // Load car texture
-        const carImg = new Image()
-        carImg.src = '/yellow_vintage_car.png'
+        // Mouse tracking state
+        let mouseX = width / 2
+        let carX = width / 2
+        let prevCarX = width / 2
+        let velocityX = 0
+        let bobbingTime = 0
+        let bgOffset = 0
 
-        let roadOffset = 0
-        let waveOffset = 0
-        let wheelAngle = 0
+        const handleMouseMove = (e) => {
+            const rect = canvas.getBoundingClientRect()
+            mouseX = e.clientX - rect.left
+        }
+
+        const handleResize = () => {
+            if (!canvas.parentElement) return
+            width = canvas.width = canvas.parentElement.clientWidth || 800
+            height = canvas.height = 200
+        }
+
+        window.addEventListener('mousemove', handleMouseMove)
+        window.addEventListener('resize', handleResize)
 
         const render = () => {
             ctx.clearRect(0, 0, width, height)
-            const speedMultiplier = boostMode === 'NITRO' ? 2.5 : 1.0
-            roadOffset = (roadOffset + 8 * speedMultiplier) % 60
-            waveOffset = (waveOffset + 0.05) % (Math.PI * 2)
-            wheelAngle = (wheelAngle + 0.2 * speedMultiplier) % (Math.PI * 2)
 
-            // 1. Sky & Ocean Sunset Gradient
-            const skyGrad = ctx.createLinearGradient(0, 0, 0, height)
-            skyGrad.addColorStop(0, '#0c162d')
-            skyGrad.addColorStop(0.4, '#1e294b')
-            skyGrad.addColorStop(0.7, '#f97316')
-            skyGrad.addColorStop(1, '#0f172a')
-            ctx.fillStyle = skyGrad
+            // LERP interpolation (0.1 factor for heavy, realistic physics feel)
+            carX += (mouseX - carX) * 0.1
+            velocityX = carX - prevCarX
+            prevCarX = carX
+
+            // Physics parameters
+            const tilt = Math.max(-0.15, Math.min(0.15, velocityX * 0.015)) // Banking angle
+            const steerAngle = Math.max(-0.35, Math.min(0.35, velocityX * 0.04)) // Front wheel steer
+            const absSpeed = Math.abs(velocityX)
+            bobbingTime += 0.15
+            const bobbingY = Math.sin(bobbingTime) * 1.5 // Chassis flex / suspension
+
+            bgOffset = (bgOffset - velocityX * 0.8) % 100
+
+            // 1. Parallax Blurred Grandstand / Track Grid Background
+            ctx.save()
+            const bgGrad = ctx.createLinearGradient(0, 0, 0, height)
+            bgGrad.addColorStop(0, '#060b18')
+            bgGrad.addColorStop(0.6, '#0f172a')
+            bgGrad.addColorStop(1, '#020612')
+            ctx.fillStyle = bgGrad
             ctx.fillRect(0, 0, width, height)
 
-            // 2. Parallax Ocean Waves
-            ctx.save()
-            ctx.fillStyle = '#0284c7'
-            ctx.globalAlpha = 0.6
+            // Track Grid Lines (Scroller)
+            ctx.strokeStyle = 'rgba(0, 212, 255, 0.15)'
+            ctx.lineWidth = 1
             ctx.beginPath()
-            ctx.moveTo(0, height * 0.55)
-            for (let x = 0; x <= width; x += 20) {
-                ctx.lineTo(x, height * 0.55 + Math.sin((x * 0.03) + waveOffset) * 4)
+            for (let x = (bgOffset % 40) - 40; x < width + 40; x += 40) {
+                ctx.moveTo(x, height * 0.6)
+                ctx.lineTo(x - (x - width / 2) * 0.4, height)
             }
-            ctx.lineTo(width, height)
-            ctx.lineTo(0, height)
+            ctx.stroke()
+            ctx.restore()
+
+            // 2. Speedway Track Asphalt & Red/White Kerbs
+            const kerbY = height * 0.65
+            ctx.fillStyle = '#0a0f1d'
+            ctx.fillRect(0, kerbY, width, height - kerbY)
+
+            // Red/White F1 Kerb Strip
+            ctx.save()
+            const kerbStep = 30
+            for (let x = (bgOffset % (kerbStep * 2)) - kerbStep * 2; x < width + kerbStep; x += kerbStep) {
+                ctx.fillStyle = Math.floor((x - bgOffset) / kerbStep) % 2 === 0 ? '#ef4444' : '#ffffff'
+                ctx.fillRect(x, kerbY, kerbStep, 6)
+            }
+            ctx.restore()
+
+            // 3. Motion Blur Speed-Line Streaks
+            if (absSpeed > 1.2) {
+                ctx.save()
+                ctx.strokeStyle = velocityX > 0 ? 'rgba(0, 212, 255, 0.4)' : 'rgba(239, 68, 68, 0.4)'
+                ctx.lineWidth = Math.min(4, absSpeed)
+                ctx.shadowBlur = 10
+                ctx.shadowColor = 'var(--cyan)'
+                ctx.beginPath()
+                for (let i = 0; i < 5; i++) {
+                    const streakY = kerbY + 15 + (i * 12)
+                    const streakLen = absSpeed * 15
+                    const startX = carX - (velocityX > 0 ? streakLen : -streakLen)
+                    ctx.moveTo(startX, streakY)
+                    ctx.lineTo(startX + (velocityX > 0 ? streakLen * 1.5 : -streakLen * 1.5), streakY)
+                }
+                ctx.stroke()
+                ctx.restore()
+            }
+
+            // 4. Ground Shadow (Skews & Stretches with Tilt)
+            const carY = height * 0.72 + bobbingY
+            ctx.save()
+            ctx.translate(carX, carY + 18)
+            ctx.scale(1 + Math.abs(tilt), 0.3)
+            ctx.rotate(tilt * 0.5)
+            const shadowGrad = ctx.createRadialGradient(0, 0, 10, 0, 0, 80)
+            shadowGrad.addColorStop(0, 'rgba(0,0,0,0.85)')
+            shadowGrad.addColorStop(1, 'transparent')
+            ctx.fillStyle = shadowGrad
+            ctx.beginPath()
+            ctx.ellipse(0, 0, 90, 30, 0, 0, Math.PI * 2)
             ctx.fill()
             ctx.restore()
 
-            // 3. Parallax Highway Road Asphalt
-            const roadY = height * 0.62
-            const roadH = height * 0.38
-            ctx.fillStyle = '#0f172a'
-            ctx.fillRect(0, roadY, width, roadH)
-
-            // Guardrail Lines
-            ctx.strokeStyle = '#38bdf8'
-            ctx.lineWidth = 2
-            ctx.beginPath()
-            ctx.moveTo(0, roadY)
-            ctx.lineTo(width, roadY)
-            ctx.stroke()
-
-            // Animated Passing Lane Dashes
+            // 5. High-Detail Crisp F1 Race Car (SVG Path / Canvas Drawing)
             ctx.save()
-            ctx.strokeStyle = '#facc15'
-            ctx.lineWidth = 3
-            ctx.setLineDash([30, 30])
-            ctx.lineDashOffset = -roadOffset
+            ctx.translate(carX, carY)
+            ctx.rotate(tilt)
+
+            // Rear Wing
+            ctx.fillStyle = '#00d4ff'
+            ctx.fillRect(-70, -22, 18, 16)
+            ctx.fillStyle = '#0284c7'
+            ctx.fillRect(-75, -28, 28, 6)
+
+            // Chassis & Body Nose
+            ctx.fillStyle = '#0f172a'
             ctx.beginPath()
-            ctx.moveTo(0, roadY + roadH * 0.5)
-            ctx.lineTo(width, roadY + roadH * 0.5)
+            ctx.moveTo(-60, 0)
+            ctx.lineTo(-40, -14)
+            ctx.lineTo(20, -12)
+            ctx.lineTo(65, 4) // Nose tip
+            ctx.lineTo(60, 10)
+            ctx.lineTo(-60, 10)
+            ctx.closePath()
+            ctx.fill()
+
+            // Livery Sidepod Accent Gradient
+            const bodyGrad = ctx.createLinearGradient(-40, 0, 60, 0)
+            bodyGrad.addColorStop(0, '#00d4ff')
+            bodyGrad.addColorStop(0.5, '#00ff88')
+            bodyGrad.addColorStop(1, '#3b82f6')
+            ctx.fillStyle = bodyGrad
+            ctx.fillRect(-35, -8, 55, 8)
+
+            // Halo & Cockpit
+            ctx.fillStyle = '#020617'
+            ctx.beginPath()
+            ctx.ellipse(-5, -14, 14, 7, 0, 0, Math.PI * 2)
+            ctx.fill()
+            ctx.strokeStyle = '#38bdf8'
+            ctx.lineWidth = 3
+            ctx.beginPath()
+            ctx.arc(-5, -14, 12, Math.PI, Math.PI * 2)
             ctx.stroke()
-            ctx.restore()
 
-            // 4. Draw Photorealistic Yellow Vintage Car
-            if (carImg.complete && carImg.naturalWidth > 0) {
-                ctx.save()
-                // Render Parallax Background Car Image
-                ctx.globalAlpha = 0.85
-                ctx.drawImage(carImg, 0, 0, width, height)
-                ctx.restore()
-            }
+            // Front Wing
+            ctx.fillStyle = '#00ff88'
+            ctx.fillRect(55, 4, 25, 6)
 
-            // 5. Draw Animated Motion Blur Lines & Exhaust Nitro Particles
-            if (boostMode === 'NITRO') {
+            // Wheels & Steering Engine (Exposed Tires)
+            const drawWheel = (wx, wy, isFront) => {
                 ctx.save()
-                ctx.strokeStyle = '#ff0055'
-                ctx.shadowBlur = 15
-                ctx.shadowColor = '#ff0055'
+                ctx.translate(wx, wy)
+                if (isFront) ctx.rotate(steerAngle)
+                ctx.fillStyle = '#1e293b'
+                ctx.beginPath()
+                ctx.ellipse(0, 0, 12, 14, 0, 0, Math.PI * 2)
+                ctx.fill()
+                // Yellow Pirelli Rim Accent
+                ctx.strokeStyle = '#facc15'
                 ctx.lineWidth = 2
-                for (let i = 0; i < 6; i++) {
-                    const lineY = roadY + (i * 8) + 10
-                    const lineX = (Math.random() * width)
-                    ctx.beginPath()
-                    ctx.moveTo(lineX, lineY)
-                    ctx.lineTo(lineX - 40, lineY)
-                    ctx.stroke()
-                }
+                ctx.beginPath()
+                ctx.arc(0, 0, 6, 0, Math.PI * 2)
+                ctx.stroke()
                 ctx.restore()
             }
+
+            drawWheel(-42, 8, false) // Rear wheel
+            drawWheel(42, 8, true)   // Steered Front wheel
+
+            ctx.restore()
 
             animId = requestAnimationFrame(render)
         }
 
         render()
 
-        return () => cancelAnimationFrame(animId)
+        return () => {
+            cancelAnimationFrame(animId)
+            window.removeEventListener('mousemove', handleMouseMove)
+            window.removeEventListener('resize', handleResize)
+        }
     }, [boostMode])
 
     const checkpoints = [
@@ -289,16 +379,16 @@ export default function CyberSpeedwayCircuit({ activeTheme }) {
                             fontSize: '0.64rem',
                             fontFamily: 'var(--font-mono)',
                             fontWeight: 900,
-                            color: 'var(--yellow)',
+                            color: 'var(--cyan)',
                             background: 'rgba(0,0,0,0.7)',
                             padding: '0.25rem 0.65rem',
                             borderRadius: 'var(--radius-sm)',
-                            border: '1px solid rgba(255, 209, 102, 0.5)',
+                            border: '1px solid rgba(0, 212, 255, 0.5)',
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '0.4rem'
                         }}>
-                            <Flame size={12} style={{ animation: 'pulse 1s infinite' }} /> COASTAL HIGHWAY SPEEDWAY // 4K CINEMATIC LOOP
+                            <Gauge size={12} style={{ animation: 'pulse 1s infinite' }} /> F1 MOUSE-TRACKING PHYSICS ENGINE // MOVE CURSOR HORIZONTALLY
                         </span>
 
                         <span style={{
@@ -306,12 +396,12 @@ export default function CyberSpeedwayCircuit({ activeTheme }) {
                             fontFamily: 'var(--font-mono)',
                             fontWeight: 800,
                             color: '#fff',
-                            background: 'rgba(0, 212, 255, 0.25)',
+                            background: 'rgba(0, 255, 136, 0.25)',
                             padding: '0.2rem 0.5rem',
                             borderRadius: '4px',
-                            border: '1px solid rgba(0, 212, 255, 0.5)'
+                            border: '1px solid rgba(0, 255, 136, 0.5)'
                         }}>
-                            TRACKING SHOT 60FPS
+                            60 FPS LERP (0.1) PHYSICS
                         </span>
                     </div>
 
@@ -321,7 +411,7 @@ export default function CyberSpeedwayCircuit({ activeTheme }) {
                                 VEHICLE TELEMETRY
                             </div>
                             <div style={{ fontSize: '1.2rem', fontFamily: 'var(--font-mono)', fontWeight: 900, color: '#fff' }}>
-                                VINTAGE GT SPEEDSTER
+                                HIGH-PRECISION F1 TELEMETRY CAR
                             </div>
                         </div>
 
