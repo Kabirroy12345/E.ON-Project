@@ -74,6 +74,18 @@ const ATTACK_TYPES = [
         cvss: 8.2,
         targets: ['IEC 61850 MMS', 'DNP3 Communications', 'Modbus TCP'],
     },
+    {
+        id: 'berlin_cable_bridge',
+        name: 'Berlin Cable Bridge Coordinated Sabotage',
+        icon: 'Flame',
+        category: 'Cyber-Physical Sabotage',
+        mitre: 'T0885 / T0882',
+        cve: 'EON-2026-BERLIN-01',
+        description: 'Multi-feeder simultaneous physical cable bridge arson paired with Modbus/DNP3 telemetry spoofing across bundled medium/high voltage lines',
+        severity: 'critical',
+        cvss: 9.9,
+        targets: ['High/Medium Voltage Cable Bridge', 'Substation Feeder Ring', 'DER Reverse-Flow Inverters'],
+    },
 ];
 
 const DEFENSE_ACTIONS = [

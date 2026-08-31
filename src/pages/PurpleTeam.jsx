@@ -20,6 +20,7 @@ const ATTACK_ICONS = {
     Cpu: Cpu,
     Lock: Lock,
     ScanEye: ScanEye,
+    Flame: Flame,
 }
 
 // Cycle step data

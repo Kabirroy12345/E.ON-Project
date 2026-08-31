@@ -8,7 +8,7 @@ import {
 import {
     ShieldCheck, ShieldAlert, Clock, Activity, AlertTriangle,
     Radar, Cpu, ArrowUpRight, ArrowDownRight, Zap, Radio, CheckCircle2,
-    FileText, Lock, Filter, Server, Eye, Crosshair
+    FileText, Lock, Filter, Server, Eye, Crosshair, Flame
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import {
@@ -31,6 +31,7 @@ const ATTACK_ICONS = {
     Cpu: Cpu,
     Lock: Lock,
     ScanEye: Radar,
+    Flame: Flame,
 }
 
 // Chart Defaults
