@@ -11,6 +11,8 @@ import GridWeatherWidget from '../components/GridWeatherWidget'
 import CyberSpeedwayCircuit from '../components/CyberSpeedwayCircuit'
 import CyberParticleNetworkBackground from '../components/CyberParticleNetworkBackground'
 import CyberHeroHeading from '../components/CyberHeroHeading'
+import pulkitImg from '../assets/team/pulkit.png'
+import kabirImg from '../assets/team/kabir.jpg'
 
 // THEME CONFIGURATIONS (CYBER, WARP, STEALTH)
 const THEME_CONFIGS = {
@@ -231,14 +233,14 @@ export default function Landing() {
             role: 'Lead AI Engineer & Systems Architect',
             badge: 'LEAD ARCHITECT',
             color: 'var(--red)',
-            photo: '/team/pulkit.png'
+            photo: pulkitImg
         },
         {
             name: 'Kabir Roy',
             role: 'Cybersecurity & Purple SOC Lead',
             badge: 'SECURITY LEAD',
             color: 'var(--cyan)',
-            photo: '/team/kabir.jpg'
+            photo: kabirImg
         }
     ]
 
@@ -772,9 +774,17 @@ export default function Landing() {
                                     <div style={{
                                         width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden',
                                         border: `2px solid ${m.color}`, flexShrink: 0, background: 'var(--bg-tertiary)',
-                                        boxShadow: `0 0 15px ${m.color}40`
+                                        boxShadow: `0 0 15px ${m.color}40`, display: 'flex', alignItems: 'center', justifyContent: 'center'
                                     }}>
-                                        <img src={m.photo} alt={m.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                        <img
+                                            src={m.photo}
+                                            alt={m.name}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            onError={(e) => {
+                                                e.currentTarget.onerror = null;
+                                                e.currentTarget.src = idx === 0 ? '/team/pulkit.png' : '/team/kabir.jpg';
+                                            }}
+                                        />
                                     </div>
                                     <div>
                                         <div style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', fontWeight: 800, color: m.color, letterSpacing: '0.1em', marginBottom: '0.2rem' }}>
