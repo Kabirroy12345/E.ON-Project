@@ -231,7 +231,7 @@ export default function Landing() {
             role: 'Lead AI Engineer & Systems Architect',
             badge: 'LEAD ARCHITECT',
             color: 'var(--red)',
-            photo: '/team/pulkit.jpg'
+            photo: '/team/pulkit.png'
         },
         {
             name: 'Kabir Roy',
