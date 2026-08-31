@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import {
     Swords, ShieldCheck, Crosshair, Brain, Target, Zap,
     ArrowRight, Play, RotateCcw, CheckCircle2, AlertTriangle, XCircle,
-    Search, Wrench, ScanEye, FileText, Syringe, Fish, Unplug, Cpu, Lock, ShieldAlert
+    Search, Wrench, ScanEye, FileText, Syringe, Fish, Unplug, Cpu, Lock, ShieldAlert, Flame
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import {
