@@ -6,7 +6,8 @@ import {
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 
-export default function CyberSpeedwayCircuit({ activeTheme }) {
+export default function CyberSpeedwayCircuit({ activeTheme = { primary: '#00d4ff', secondary: '#00ff88', border: 'rgba(0, 212, 255, 0.3)' } }) {
+    const primaryColor = activeTheme?.primary || '#00d4ff'
     const carCanvasRef = useRef(null)
     const [boostMode, setBoostMode] = useState('TELEMETRY') // TELEMETRY | NITRO | PITSTOP
     const [hoveredCard, setHoveredCard] = useState(null)
@@ -287,7 +288,7 @@ export default function CyberSpeedwayCircuit({ activeTheme }) {
                             width: '10px', height: '10px', borderRadius: '50%', background: 'var(--red)',
                             boxShadow: '0 0 10px var(--red)', animation: 'pulse 1s infinite'
                         }}></span>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: activeTheme.primary, letterSpacing: '0.2em', fontWeight: 900 }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: primaryColor, letterSpacing: '0.2em', fontWeight: 900 }}>
                             CYBER SPEEDWAY // INTEGRATED PURPLE TEAM CIRCUIT
                         </span>
                     </div>
@@ -301,7 +302,7 @@ export default function CyberSpeedwayCircuit({ activeTheme }) {
                     <button
                         onClick={() => setBoostMode('TELEMETRY')}
                         style={{
-                            background: boostMode === 'TELEMETRY' ? activeTheme.primary : 'transparent',
+                            background: boostMode === 'TELEMETRY' ? primaryColor : 'transparent',
                             color: boostMode === 'TELEMETRY' ? '#000' : 'var(--text-secondary)',
                             border: 'none',
                             padding: '0.35rem 0.85rem',

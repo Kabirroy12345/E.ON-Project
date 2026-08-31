@@ -3,15 +3,16 @@ import { motion } from 'framer-motion'
 
 const MATRIX_GLYPHS = '01#$%&<>[]{}/*+=?!#@ABCDEFGHJKLMNOPQRSTUVWXYZ'
 
-export default function CyberHeroHeading({ text = "GRIDSHIELD", activeTheme }) {
+export default function CyberHeroHeading({ text = "GRIDSHIELD", activeTheme = { primary: '#00d4ff', secondary: '#00ff88' } }) {
+    const primaryColor = activeTheme?.primary || '#00d4ff'
     const containerRef = useRef(null)
     const [displayText, setDisplayText] = useState([])
     const [isDecoded, setIsDecoded] = useState(false)
     const [glitchActive, setGlitchActive] = useState(false)
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
-    // Check prefers-reduced-motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // Check prefers-reduced-motion safely
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false
 
     // 1. Hacker Decode-In Entrance Animation (< 1.2s)
     useEffect(() => {
@@ -88,7 +89,7 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD", activeTheme }) {
                 width: '200px',
                 height: '200px',
                 borderRadius: '50%',
-                background: `radial-gradient(circle, ${activeTheme.primary}45 0%, rgba(255, 0, 85, 0.15) 50%, transparent 80%)`,
+                background: `radial-gradient(circle, ${primaryColor}45 0%, rgba(255, 0, 85, 0.15) 50%, transparent 80%)`,
                 pointerEvents: 'none',
                 filter: 'blur(20px)',
                 transition: 'top 0.1s ease-out, left 0.1s ease-out',
@@ -122,9 +123,9 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD", activeTheme }) {
                     fontFamily: 'var(--font-mono)',
                     fontSize: 'clamp(1.8rem, 3.5vw, 3.2rem)',
                     fontWeight: 900,
-                    color: activeTheme.primary,
+                    color: primaryColor,
                     marginRight: '0.2rem',
-                    textShadow: `0 0 20px ${activeTheme.primary}`,
+                    textShadow: `0 0 20px ${primaryColor}`,
                     opacity: 0.85
                 }}>
                     [
@@ -142,8 +143,8 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD", activeTheme }) {
                         color: '#ffffff',
                         fontFamily: 'var(--font-mono)',
                         textShadow: glitchActive
-                            ? `-3px 0 #ff0055, 3px 0 #00d4ff, 0 0 35px ${activeTheme.primary}`
-                            : `0 0 30px ${activeTheme.primary}, 0 0 10px rgba(255,255,255,0.8)`,
+                            ? `-3px 0 #ff0055, 3px 0 #00d4ff, 0 0 35px ${primaryColor}`
+                            : `0 0 30px ${primaryColor}, 0 0 10px rgba(255,255,255,0.8)`,
                         display: 'flex',
                         gap: '0.02em',
                         transition: 'text-shadow 0.1s ease',
@@ -157,7 +158,7 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD", activeTheme }) {
                             style={{
                                 display: 'inline-block',
                                 transformStyle: 'preserve-3d',
-                                textShadow: char === ' ' ? 'none' : `0 0 25px ${activeTheme.primary}`
+                                textShadow: char === ' ' ? 'none' : `0 0 25px ${primaryColor}`
                             }}
                         >
                             {char === ' ' ? '\u00A0' : char}
@@ -170,9 +171,9 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD", activeTheme }) {
                     fontFamily: 'var(--font-mono)',
                     fontSize: 'clamp(1.8rem, 3.5vw, 3.2rem)',
                     fontWeight: 900,
-                    color: activeTheme.primary,
+                    color: primaryColor,
                     marginLeft: '0.2rem',
-                    textShadow: `0 0 20px ${activeTheme.primary}`,
+                    textShadow: `0 0 20px ${primaryColor}`,
                     opacity: 0.85
                 }}>
                     ]
@@ -184,9 +185,9 @@ export default function CyberHeroHeading({ text = "GRIDSHIELD", activeTheme }) {
                 height: '3px',
                 width: '100%',
                 marginTop: '0.5rem',
-                background: `linear-gradient(90deg, transparent 0%, ${activeTheme.primary} 30%, #ff0055 70%, transparent 100%)`,
+                background: `linear-gradient(90deg, transparent 0%, ${primaryColor} 30%, #ff0055 70%, transparent 100%)`,
                 borderRadius: '2px',
-                boxShadow: `0 0 15px ${activeTheme.primary}`,
+                boxShadow: `0 0 15px ${primaryColor}`,
                 animation: 'pulse 2s infinite ease-in-out'
             }} />
         </div>
