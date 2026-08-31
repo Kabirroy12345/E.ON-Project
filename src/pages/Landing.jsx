@@ -673,10 +673,33 @@ export default function Landing() {
                 </div>
 
                 {/* INFINITE SEAMLESS TICKER MARQUEE */}
-                <div className="ticker-container" style={{ marginTop: '2rem', marginBottom: '4rem' }}>
-                    <div className="ticker-wrapper">
+                <div className="ticker-container" style={{
+                    width: '100vw',
+                    position: 'relative',
+                    left: '50%',
+                    right: '50%',
+                    marginLeft: '-50vw',
+                    marginRight: '-50vw',
+                    marginTop: '2rem',
+                    marginBottom: '4rem',
+                    overflow: 'hidden',
+                    background: 'rgba(5, 10, 24, 0.75)',
+                    borderTop: '1px solid rgba(0, 212, 255, 0.18)',
+                    borderBottom: '1px solid rgba(0, 212, 255, 0.18)',
+                    padding: '0.85rem 0',
+                    backdropFilter: 'blur(12px)',
+                    display: 'flex',
+                    whiteSpace: 'nowrap'
+                }}>
+                    <div className="ticker-wrapper" style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        flexWrap: 'nowrap',
+                        width: 'max-content',
+                        alignItems: 'center'
+                    }}>
                         {/* Duplicate Group 1 */}
-                        <div className="ticker-group">
+                        <div className="ticker-group" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', gap: '2.5rem', paddingRight: '2.5rem', whiteSpace: 'nowrap', flexShrink: 0 }}>
                             <span>⚡ AUTONOMOUS RED TEAM AI</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
                             <span>🛡️ GRAPHSAGE GNN BLAST RADIUS</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
                             <span>⚡ 1.14ms EDGE TINYML INFERENCE</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
@@ -685,7 +708,7 @@ export default function Landing() {
                             <span>💚 CLUSTER 5 ADOPTION FRAMEWORK</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
                         </div>
                         {/* Duplicate Group 2 for Infinite Loop */}
-                        <div className="ticker-group">
+                        <div className="ticker-group" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', gap: '2.5rem', paddingRight: '2.5rem', whiteSpace: 'nowrap', flexShrink: 0 }}>
                             <span>⚡ AUTONOMOUS RED TEAM AI</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
                             <span>🛡️ GRAPHSAGE GNN BLAST RADIUS</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
                             <span>⚡ 1.14ms EDGE TINYML INFERENCE</span> <span style={{ color: 'rgba(255,255,255,0.2)' }}>★</span>
